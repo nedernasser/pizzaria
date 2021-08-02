@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Data", "Pizzaria.Data\Pizzaria.Data.csproj", "{9F2DD07F-12C3-4510-9402-D2FD6E2DEBE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Core", "Pizzaria.Core\Pizzaria.Core.csproj", "{C2BBE990-EAEC-4DC7-86C9-6AE8F1E59414}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Site", "Pizzaria.Site\Pizzaria.Site.csproj", "{8115292D-EDE0-4B5A-99E6-54ADE56CDACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Components.Web", "Pizzaria.Components.Web\Pizzaria.Components.Web.csproj", "{0DBFFC07-BA16-46A1-A461-530AF7DF124F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pizzaria.Biblioteca", "Pizzaria.Biblioteca", "{F83CA024-5044-404A-B0E5-94FDC778BFBE}"
+	ProjectSection(SolutionItems) = preProject
+		Pizzaria.Biblioteca\MySql.Data.6.8.3\lib\net45\MySql.Data.dll = Pizzaria.Biblioteca\MySql.Data.6.8.3\lib\net45\MySql.Data.dll
+		Pizzaria.Biblioteca\mysqldatabase1186.txt = Pizzaria.Biblioteca\mysqldatabase1186.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Imprimir", "Pizzaria.Imprimir\Pizzaria.Imprimir.csproj", "{5C08CD73-B104-4065-A396-79950FDEFA0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzaria.Security", "Pizzaria.Security\Pizzaria.Security.csproj", "{33E8CF93-F778-4C4B-A6A1-25335DEC4076}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F2DD07F-12C3-4510-9402-D2FD6E2DEBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2DD07F-12C3-4510-9402-D2FD6E2DEBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2DD07F-12C3-4510-9402-D2FD6E2DEBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2DD07F-12C3-4510-9402-D2FD6E2DEBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2BBE990-EAEC-4DC7-86C9-6AE8F1E59414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2BBE990-EAEC-4DC7-86C9-6AE8F1E59414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2BBE990-EAEC-4DC7-86C9-6AE8F1E59414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2BBE990-EAEC-4DC7-86C9-6AE8F1E59414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8115292D-EDE0-4B5A-99E6-54ADE56CDACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8115292D-EDE0-4B5A-99E6-54ADE56CDACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8115292D-EDE0-4B5A-99E6-54ADE56CDACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8115292D-EDE0-4B5A-99E6-54ADE56CDACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DBFFC07-BA16-46A1-A461-530AF7DF124F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DBFFC07-BA16-46A1-A461-530AF7DF124F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DBFFC07-BA16-46A1-A461-530AF7DF124F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DBFFC07-BA16-46A1-A461-530AF7DF124F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C08CD73-B104-4065-A396-79950FDEFA0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C08CD73-B104-4065-A396-79950FDEFA0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C08CD73-B104-4065-A396-79950FDEFA0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C08CD73-B104-4065-A396-79950FDEFA0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E8CF93-F778-4C4B-A6A1-25335DEC4076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E8CF93-F778-4C4B-A6A1-25335DEC4076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E8CF93-F778-4C4B-A6A1-25335DEC4076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E8CF93-F778-4C4B-A6A1-25335DEC4076}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B450050F-61CA-461B-86BE-5D6643F989A3}
+	EndGlobalSection
+EndGlobal

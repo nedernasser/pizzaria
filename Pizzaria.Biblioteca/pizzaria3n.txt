@@ -1,0 +1,1358 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jun 09, 2020 at 02:29 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pizzaria`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetPermissions`
+--
+
+CREATE TABLE `AspNetPermissions` (
+  `Id` int(11) NOT NULL,
+  `ApplicationId` int(11) NOT NULL,
+  `PermissionGroupName` varchar(500) NOT NULL,
+  `PermissionName` varchar(500) NOT NULL,
+  `Controller` varchar(500) DEFAULT NULL,
+  `Action` varchar(500) DEFAULT NULL,
+  `PermissionCode` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetRoleClaims`
+--
+
+CREATE TABLE `AspNetRoleClaims` (
+  `Id` int(11) NOT NULL,
+  `RoleId` varchar(128) NOT NULL,
+  `ClaimType` varchar(500) DEFAULT NULL,
+  `ClaimValue` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `AspNetRoleClaims`
+--
+
+INSERT INTO `AspNetRoleClaims` (`Id`, `RoleId`, `ClaimType`, `ClaimValue`) VALUES
+(1, '40b166af-0e69-4505-bb5e-5a71852fb0d4', 'SystemAdmin', 'SystemAdmin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetRoles`
+--
+
+CREATE TABLE `AspNetRoles` (
+  `Id` varchar(128) NOT NULL,
+  `Name` varchar(256) NOT NULL,
+  `Discriminator` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `AspNetRoles`
+--
+
+INSERT INTO `AspNetRoles` (`Id`, `Name`, `Discriminator`) VALUES
+('40b166af-0e69-4505-bb5e-5a71852fb0d4', 'Administrador', 'Administrador do Sistema');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetUserClaims`
+--
+
+CREATE TABLE `AspNetUserClaims` (
+  `Id` int(11) NOT NULL,
+  `UserId` varchar(128) NOT NULL,
+  `ClaimType` varchar(500) DEFAULT NULL,
+  `ClaimValue` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetUserLogins`
+--
+
+CREATE TABLE `AspNetUserLogins` (
+  `LoginProvider` varchar(128) NOT NULL,
+  `ProviderKey` varchar(128) NOT NULL,
+  `UserId` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetUserRoles`
+--
+
+CREATE TABLE `AspNetUserRoles` (
+  `UserId` varchar(128) NOT NULL,
+  `RoleId` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `AspNetUserRoles`
+--
+
+INSERT INTO `AspNetUserRoles` (`UserId`, `RoleId`) VALUES
+('7d30e10d-5e7e-44ab-b239-8a2be6324236', '40b166af-0e69-4505-bb5e-5a71852fb0d4');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AspNetUsers`
+--
+
+CREATE TABLE `AspNetUsers` (
+  `Id` varchar(128) NOT NULL,
+  `Nome` varchar(500) NOT NULL,
+  `Email` varchar(256) DEFAULT NULL,
+  `EmailConfirmed` tinyint(1) NOT NULL,
+  `PasswordHash` varchar(500) DEFAULT NULL,
+  `SecurityStamp` varchar(500) DEFAULT NULL,
+  `PhoneNumber` varchar(500) DEFAULT NULL,
+  `PhoneNumberConfirmed` tinyint(1) NOT NULL,
+  `TwoFactorEnabled` tinyint(1) NOT NULL,
+  `LockoutEndDateUtc` datetime DEFAULT NULL,
+  `LockoutEnabled` tinyint(1) NOT NULL,
+  `AccessFailedCount` int(11) NOT NULL,
+  `UserName` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `AspNetUsers`
+--
+
+INSERT INTO `AspNetUsers` (`Id`, `Nome`, `Email`, `EmailConfirmed`, `PasswordHash`, `SecurityStamp`, `PhoneNumber`, `PhoneNumberConfirmed`, `TwoFactorEnabled`, `LockoutEndDateUtc`, `LockoutEnabled`, `AccessFailedCount`, `UserName`) VALUES
+('7d30e10d-5e7e-44ab-b239-8a2be6324236', 'Neder Nasser', 'nedernasser@gmail.com', 0, 'ALaGrIQI/uuQzOK5wjQ38c65+TvtDzGVF5/kTKEjb7HrCzRj9+k2htlHMACb7HzHCg==', 'a8fc50fd-4277-45a5-83f5-6731970947ee', NULL, 0, 0, NULL, 0, 0, 'ADNeder');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `BAIRRO_TAXA`
+--
+
+CREATE TABLE `BAIRRO_TAXA` (
+  `BAIRRO` varchar(100) NOT NULL,
+  `TAXA` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `BAIRRO_TAXA`
+--
+
+INSERT INTO `BAIRRO_TAXA` (`BAIRRO`, `TAXA`) VALUES
+('ACLIMAÇÃO', 0),
+('BELA VISTA', 3),
+('CENTRO', 4),
+('IPIRANGA', 4),
+('LIBERDADE', 2),
+('VILA MARIANA', 3),
+('VILA MONUMENTO', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CEP_TAXA`
+--
+
+CREATE TABLE `CEP_TAXA` (
+  `CEP` varchar(9) NOT NULL,
+  `TAXA` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `CEP_TAXA`
+--
+
+INSERT INTO `CEP_TAXA` (`CEP`, `TAXA`) VALUES
+('01526-000', 0),
+('01526-010', 0),
+('01526-020', 0),
+('01526-030', 0),
+('01526-040', 0),
+('01526-050', 0),
+('01526-060', 0),
+('01528-000', 0),
+('01528-020', 0),
+('01528-080', 0),
+('01529-000', 0),
+('01529-001', 0),
+('01529-010', 0),
+('01529-020', 0),
+('01529-030', 0),
+('01529-040', 0),
+('01529-900', 0),
+('01530-000', 0),
+('01530-010', 0),
+('01530-020', 0),
+('01530-030', 0),
+('01530-040', 0),
+('01530-050', 0),
+('01530-060', 0),
+('01530-070', 0),
+('01530-080', 0),
+('01530-090', 0),
+('01530-100', 0),
+('01531-000', 0),
+('01531-001', 0),
+('01531-010', 0),
+('01531-020', 0),
+('01531-030', 0),
+('01531-040', 0),
+('01531-050', 0),
+('01531-060', 0),
+('01532-000', 0),
+('01532-001', 0),
+('01532-010', 0),
+('01532-020', 0),
+('01532-030', 0),
+('01532-040', 0),
+('01532-050', 0),
+('01532-060', 0),
+('01532-070', 0),
+('01532-080', 0),
+('01532-090', 0),
+('01532-901', 0),
+('01533-000', 0),
+('01533-005', 0),
+('01533-010', 0),
+('01533-020', 0),
+('01533-030', 0),
+('01533-040', 0),
+('01533-050', 0),
+('01533-060', 0),
+('01533-070', 0),
+('01533-080', 0),
+('01533-090', 0),
+('01533-100', 0),
+('01534-000', 0),
+('01534-001', 0),
+('01534-010', 0),
+('01534-020', 0),
+('01534-030', 0),
+('01534-040', 0),
+('01534-050', 0),
+('01534-060', 0),
+('01543-020', 0),
+('04108-000', 0),
+('04108-001', 0),
+('04108-010', 0),
+('04108-020', 0),
+('04108-030', 0),
+('04108-040', 0),
+('04108-050', 0),
+('04108-060', 0),
+('04108-070', 0),
+('04108-080', 0),
+('04108-090', 0),
+('04108-100', 0),
+('04108-110', 0),
+('04108-120', 0),
+('04108-130', 0),
+('04109-000', 0),
+('04109-010', 0),
+('04109-020', 0),
+('04109-030', 0),
+('04109-040', 0),
+('04109-050', 0),
+('04109-060', 0),
+('04109-070', 0),
+('04109-080', 0),
+('04109-090', 0),
+('04109-100', 0),
+('04109-110', 0),
+('04109-130', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CLIENTE`
+--
+
+CREATE TABLE `CLIENTE` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(100) COLLATE latin1_general_ci NOT NULL,
+  `DATANASCIMENTO` date DEFAULT NULL,
+  `CELULAR` varchar(15) COLLATE latin1_general_ci DEFAULT NULL,
+  `TELEFONE` varchar(14) COLLATE latin1_general_ci DEFAULT NULL,
+  `ULTIMOPEDIDO` int(11) DEFAULT NULL,
+  `DATACADASTRO` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `CLIENTE`
+--
+
+INSERT INTO `CLIENTE` (`ID`, `NOME`, `DATANASCIMENTO`, `CELULAR`, `TELEFONE`, `ULTIMOPEDIDO`, `DATACADASTRO`) VALUES
+(94, 'NEDER NACHED NASSER', '1982-07-28', '11956009755', '', 1, '2017-03-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ENDERECO`
+--
+
+CREATE TABLE `ENDERECO` (
+  `ID` int(11) NOT NULL,
+  `CLIENTE` int(11) NOT NULL,
+  `LOGRADOURO` varchar(200) NOT NULL,
+  `NUMERO` varchar(20) NOT NULL,
+  `COMPLEMENTO` varchar(45) DEFAULT NULL,
+  `BAIRRO` varchar(45) NOT NULL,
+  `CIDADE` varchar(45) NOT NULL,
+  `ESTADO` varchar(2) NOT NULL,
+  `CEP` varchar(9) DEFAULT NULL,
+  `LATITUDE` float DEFAULT NULL,
+  `LONGITUDE` float DEFAULT NULL,
+  `PADRAO` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ENDERECO`
+--
+
+INSERT INTO `ENDERECO` (`ID`, `CLIENTE`, `LOGRADOURO`, `NUMERO`, `COMPLEMENTO`, `BAIRRO`, `CIDADE`, `ESTADO`, `CEP`, `LATITUDE`, `LONGITUDE`, `PADRAO`) VALUES
+(13, 94, 'Rua Almeida Torres', '108', 'APTO 406', 'ACLIMAÇÃO', 'São Paulo', 'SP', '01530-010', NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `FUNCIONARIO`
+--
+
+CREATE TABLE `FUNCIONARIO` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(255) NOT NULL,
+  `DATANASCIMENTO` date NOT NULL,
+  `CPF` varchar(45) DEFAULT NULL,
+  `COMISSAO` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `FUNCIONARIO`
+--
+
+INSERT INTO `FUNCIONARIO` (`ID`, `NOME`, `DATANASCIMENTO`, `CPF`, `COMISSAO`) VALUES
+(1, 'JOSE ROBERTO DA SILVA', '1982-02-12', '19201928382', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `INGREDIENTE`
+--
+
+CREATE TABLE `INGREDIENTE` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(40) COLLATE latin1_general_ci NOT NULL,
+  `PRINCIPAL` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `INGREDIENTE`
+--
+
+INSERT INTO `INGREDIENTE` (`ID`, `NOME`, `PRINCIPAL`) VALUES
+(11, 'CALABRESA MOÍDA', 0),
+(12, 'CEBOLA', 0),
+(13, 'OVOS', 0),
+(14, 'PRESUNTO', 0),
+(15, 'TOMATE', 0),
+(16, 'MUSSARELA', 0),
+(17, 'ESCAROLA', 0),
+(18, 'BACON', 0),
+(19, 'MILHO VERDE', 0),
+(20, 'BANANA', 0),
+(21, 'CHOCOLATE', 0),
+(22, 'CATUPIRY', 0),
+(23, 'GOIABADA', 0),
+(24, 'PROVOLONE', 0),
+(25, 'PARMESÃO', 0),
+(26, 'GORGONZOLA', 0),
+(27, 'LOMBO CANADENSE', 0),
+(28, 'PALMITO', 0),
+(29, 'PEITO DE FRANGO DESFIADO', 0),
+(30, 'ABOBRINHA', 0),
+(31, 'ALHO', 0),
+(32, 'CORAÇÃO DE ALCACHOFRA', 0),
+(33, 'ALICHE IMPORTADO', 0),
+(34, 'ATUM', 0),
+(35, 'BACALHAU', 0),
+(36, 'BERINJELA', 0),
+(37, 'BRÓCOLIS', 0),
+(38, 'AZEITONA VERDE', 0),
+(39, 'AZEITONA PRETA', 0),
+(40, 'CAMARÃO', 0),
+(41, 'CHEIRO VERDE', 0),
+(42, 'ERVILHA', 0),
+(43, 'CHAMPIGNON', 0),
+(44, 'CARNE SECA', 0),
+(45, 'PEITO DE PERU', 0),
+(46, 'FRANGO', 0),
+(47, 'CALABRESA FATIADA', 0),
+(48, 'ESCAROLA', 0),
+(49, 'MUSSARELA DE BÚFALA', 0),
+(50, 'MANJERICÃO', 0),
+(51, 'TOMATE SECO', 0),
+(52, 'RÚCULA', 0),
+(53, 'BATATA PALHA', 0),
+(54, 'PEPERONE', 0),
+(55, 'PRESUNTO PARMA', 0),
+(56, 'SHIMEJI', 0),
+(57, 'SHITAKE', 0),
+(58, 'LEITE CONDENSADO', 0),
+(59, 'CEREJA', 0),
+(60, 'COCO RALADO', 0),
+(61, 'GRANULADO', 0),
+(62, 'MORANGO', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ITEM_ADICIONAL`
+--
+
+CREATE TABLE `ITEM_ADICIONAL` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(150) NOT NULL,
+  `VALOR` float NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ITEM_ADICIONAL`
+--
+
+INSERT INTO `ITEM_ADICIONAL` (`ID`, `NOME`, `VALOR`) VALUES
+(1, 'BORDA CATUPIRY', 6),
+(2, 'BORDA CHEDAR', 6),
+(3, 'BORDA GERGELIM', 6),
+(4, 'MASSA GROSSA', 0),
+(5, 'MASSA FINA', 0),
+(6, 'BEM PASSADA', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PEDIDO`
+--
+
+CREATE TABLE `PEDIDO` (
+  `ID` int(11) NOT NULL,
+  `FUNCIONARIO` int(11) NOT NULL,
+  `CLIENTE` int(11) NOT NULL,
+  `ENDERECO` int(11) NOT NULL,
+  `VALORTOTAL` float NOT NULL,
+  `DATAPEDIDO` date NOT NULL,
+  `OBSERVACAO` varchar(200) DEFAULT NULL,
+  `FORMAPAGAMENTO` varchar(200) DEFAULT NULL,
+  `IMPRESSO` int(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PEDIDO_ITEM`
+--
+
+CREATE TABLE `PEDIDO_ITEM` (
+  `ID` int(11) NOT NULL,
+  `PEDIDO` int(11) NOT NULL,
+  `TIPO` int(11) NOT NULL,
+  `TAMANHO` varchar(10) NOT NULL DEFAULT 'NORMAL',
+  `QTD` int(11) NOT NULL,
+  `VALOR` float DEFAULT NULL,
+  `OBSERVACAO` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PEDIDO_ITEM_ADICIONAL`
+--
+
+CREATE TABLE `PEDIDO_ITEM_ADICIONAL` (
+  `ID` int(11) NOT NULL,
+  `PEDIDOITEM` int(11) NOT NULL,
+  `ITEM_ADICIONAL` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PEDIDO_ITEM_DETALHE`
+--
+
+CREATE TABLE `PEDIDO_ITEM_DETALHE` (
+  `ID` int(11) NOT NULL,
+  `PEDIDOITEM` int(11) NOT NULL,
+  `PRODUTO` int(11) NOT NULL,
+  `SUBTIPO` int(11) NOT NULL,
+  `OBSERVACAO` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PRODUTO`
+--
+
+CREATE TABLE `PRODUTO` (
+  `ID` int(10) NOT NULL,
+  `NOME` varchar(100) COLLATE latin1_general_ci NOT NULL,
+  `DESCRICAO` text COLLATE latin1_general_ci NOT NULL,
+  `VALOR` float NOT NULL,
+  `BROTO` float DEFAULT NULL,
+  `PROMOCAO` int(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `PRODUTO`
+--
+
+INSERT INTO `PRODUTO` (`ID`, `NOME`, `DESCRICAO`, `VALOR`, `BROTO`, `PROMOCAO`) VALUES
+(1, '2 QUEIJOS', 'Mussarela e Catupiry', 40, 29, 2),
+(2, '4 QUEIJOS', 'Mussarela, provolone, parmesão e catupiry', 45, 31, 2),
+(3, '5 QUEIJOS', 'Mussarela, provolone, parmesão, catupiry e gorgonzola', 47, 33, 2),
+(4, 'À MODA DA CASA', 'Lombo canadense, palmito, bacon, mussarela e cebola', 47, 33, 2),
+(5, 'À MODA DO CHEFE', 'Peito de frango desfiado, palmito, ovos, bacon e catupiry', 47, 33, 2),
+(6, 'ABOBRINHA ESPECIAL', 'Abobrinha temperada coberta com mussarela gratinada e parmesão', 40, 29, 2),
+(7, 'ALCACHOFRA', 'Mussarela, coração de alcachofra, tomate e parmesão', 49, 35, 2),
+(8, 'ALHO E ÓLEO', 'Alho, parmesão e mussarela', 40, 29, 2),
+(9, 'ALICHE', 'Aliche importado, fatias de tomate, parmesão e mussarela', 49, 35, 2),
+(10, 'ATUM', 'Atum e cebola', 40, 29, 2),
+(11, 'ATUM SÓLIDO', 'Atum sólido e cebola', 47, 33, 2),
+(12, 'ATUMPIRY', 'Atum e catupiry ou mussarela', 44, 31, 2),
+(13, 'BACALHAU', 'Bacalhau temperado com azeite, cebola, ovos, azeitonas, mussarela ou catupiry', 49, 35, 2),
+(14, 'BACON', 'Bacon, ovo cozido e mussarela', 40, 29, 2),
+(15, 'BAIACATU', 'Calabresa moída, pimenta, mussarela ou catupiry', 40, 29, 2),
+(16, 'BAIANA', 'Calabresa moída, pimenta, cebola e ovos', 35.99, 25, NULL),
+(17, 'BAURU', 'Presunto, tomate e mussarela', 35.99, 25, NULL),
+(18, 'BERINJELA', 'Berinjela, mussarela, azeitona verde fatiada e cebola', 40, 29, 2),
+(19, 'BRÓCOLIS', 'Brócolis, mussarela, bacon e cebola', 40, 29, 2),
+(20, 'CALABRESA', 'Calabresa fatiada e cebola', 35.99, 25, NULL),
+(21, 'CAPRICIO', 'Peito de frango desfiado, catupiry ou mussarela, tomate e parmesão', 48, 35, 2),
+(22, 'CARBONARA', 'Calabresa fatiada, mussarela, ervilha, champignon e ovo', 44, 31, 2),
+(23, 'CARNE SECA', 'Carne seca desfiada, cebola fatiada, ovos, mussarela ou catupiry', 49, 35, 2),
+(24, 'CAMARÃO', 'Camarão temperado coberto com catupiry ou mussarela, cheiro verde e cebola fatiada', 70, 55, 2),
+(25, 'CATTIONE', 'Presunto, mussarela, palmito, champignon, peito de peru e catupiry', 49, 35, 2),
+(26, 'CATUPIRY', 'Catupiry', 40, 29, 2),
+(27, 'DA NONNA', 'Presunto, mussarela, ervilha, tomate, cebola e parmesão', 47, 33, 2),
+(28, 'ESCAROLA 1', 'Escarola, fatias de bacon e mussarela', 35.99, 25, NULL),
+(29, 'ESCAROLA 2', 'Escarola, aliche, bacon, mussarela e cebola', 49, 35, 2),
+(30, 'ESPÍRITO SANTO', 'Calabresa, cebola e mussarela ou catupiry', 40, 29, 2),
+(31, 'FLORENZA', 'Peito de frango desfiado, palmito, catupiry e tomate', 46, 32, 2),
+(32, 'FRANCESA', 'Presunto, bacon e catupiry', 40, 29, 2),
+(33, 'FRANCINI', 'Palmito, champignon, presunto, bacon, catupiry e cebola', 48, 35, 2),
+(34, 'FRANGO COM CATUPIRY', 'Frango e catupiry', 41, 29, 2),
+(35, 'FRANGO COM CHEDAR', 'Frango e cheddar', 41, 29, 2),
+(36, 'FRANGO CAIPIRA', 'Frango, milho e mussarela ou catupiry', 45, 31, 2),
+(37, 'GRADUADA', 'Frango, cebola, catupiry, bacon e parmesão', 47, 33, 2),
+(38, 'GREGA', 'Presunto, mussarela, palmito e ervilha', 44, 31, 2),
+(39, 'ITALIANA', 'Atum, milho verde, mussarela ou catupiry e cebola', 45, 31, 2),
+(40, 'LA BIONDA', 'Calabresa fatiada, palmito e mussarela', 45, 31, 2),
+(41, 'LOMBO', 'Lombo canadense e catupiry', 40, 29, 2),
+(42, 'MALAGUETA', 'Escarola, calabresa moída, pimenta, cebola, bacon e catupiry', 46, 32, 2),
+(43, 'MARAVILHA', 'Brócolis, palmito, tomate picado, mussarela de búfala e alho', 49, 35, 2),
+(44, 'MARGUERITA', 'Mussarela, manjericão, tomate e parmesão', 41, 29, 2),
+(45, 'MILHO I', 'Milho verde e mussarela', 35.99, 25, NULL),
+(46, 'MILHO II', 'Milho verde e catupiry', 40, 29, 2),
+(47, 'MONTE SUA PIZZA', 'Até 5 INGREDIENTEs', 45, 31, 2),
+(48, 'MUSSARELA', 'Mussarela e molho de tomate', 35.99, 25, NULL),
+(49, 'MUSSARELA CROCANTE', 'Mussarela, tomate e batata palha', 40, 29, 2),
+(50, 'MUSSARELA DE BÚFALA', 'Mussarela de búfala, tomate e manjericão', 47, 33, 2),
+(51, 'NAPOLITANA', 'Mussarela, parmesão e tomate', 44, 31, 2),
+(52, 'NIGÉRIA', 'Peito de peru, milho, ovos, mussarela ou catupiry, tomate, alho e bacon', 48, 35, 2),
+(53, 'PALMITO', 'Palmito, mussarela ou catupiry e tomate', 44, 31, 2),
+(54, 'PAULISTA', 'Peperone, mussarela, milho, tomate seco e batata palha', 46, 32, 2),
+(55, 'PEPERONE', 'Mussarela, peperone e parmesão', 48, 35, 2),
+(56, 'PERU LIGHT', 'Peito de peru, catupiry e cebola', 44, 31, 2),
+(57, 'PERUANA', 'Atum, palmito, catupiry e cebola', 46, 32, 2),
+(58, 'POMODORO', 'Mussarela de búfala, azeitonas verdes fatiadas, fatias de tomate, alho frito e salpicada de parmesão', 44, 31, 2),
+(59, 'PORTUGUESA', 'Presunto, ovos, mussarela e cebola', 41, 29, 2),
+(60, 'PRESUNTO PARMA', 'Presunto parma italiano coberto com mussarela e rodelas de tomate fresco', 50, 36, 2),
+(61, 'RAMALHÃO', 'Peperone, palmito, mussarela, tomate seco e batata palha', 48, 35, 2),
+(62, 'RÚCULA', 'Mussarela de búffala , tomate seco e rúcula', 47, 33, 2),
+(63, 'SHIMEJI E SHITAKE:', 'Mussarela de búfala, shimeji, shitake e tomate', 44, 31, 2),
+(64, 'SICILIANA', 'Champignon, mussarela, tomate e bacon', 44, 31, 2),
+(65, 'SPECIALLI', 'Presunto, cebola, palmito, catupiry e bacon', 46, 32, 2),
+(66, 'TOSCANA', 'Calabresa moída e mussarela', 35.99, 25, NULL),
+(67, 'TROIANA', 'Lombinho canadense defumado coberto com catupiry, bacon e parmesão', 45, 31, 2),
+(68, 'VEGETARIANA', 'Palmito, escarola, cebola, milho e ervilha', 44, 31, 2),
+(69, 'VERONA', 'Catupiry, provolone, tomate, parmesão e alho', 47, 33, 2),
+(70, 'VITÓRIA', 'Atum, cebola, catupiry, bacon e parmesão', 49, 35, 2),
+(71, 'BRIGADEIRO', 'Chocolate ao leite, cerejas e chocolate granulado', 40, 29, 2),
+(72, 'BANANA', 'Banana ao leite condensado, canela e açucar', 35.99, 25, NULL),
+(73, 'BANANA COM CHOCOLATE', 'Banana e chocolate ao leite', 40, 29, 2),
+(74, 'BANANELA', 'Banana, leite condensado, canela, açucar e mussarela', 40, 29, 2),
+(75, 'MESCLADA', 'Chocolate branco, chocolate ao leite e cereja', 44, 31, 2),
+(76, 'PRESTÍGIO', 'Chocolate ao leite, coco ralado, leite condensado, granulado e cerejas', 49, 35, 2),
+(77, 'ROMEU E JULIETA', 'Mussarela ou catupiry com goiabada', 35.99, 25, NULL),
+(78, 'SENSAÇÃO', 'Morango e chocolate ao leite', 44, 31, 2),
+(90, 'REFRI LATA', 'COCA-COLA', 5, 0, NULL),
+(91, 'REFRI LATA', 'COCA-COLA ZERO', 5, 0, NULL),
+(92, 'REFRI LATA', 'GUARANÁ ANTARTICA', 5, 0, NULL),
+(93, 'REFRI LATA', 'GUARANÁ ANTARTICA ZERO', 5, 0, NULL),
+(100, 'SUCO LATA', 'PÊSSEGO', 5, 0, NULL),
+(110, 'REFRI 600ML', 'COCA-COLA', 7, 0, NULL),
+(111, 'REFRI 600ML', 'COCA-COLA ZERO', 7, 0, NULL),
+(120, 'REFRI 2L', 'COCA-COLA', 11.5, 0, NULL),
+(130, 'ÁGUA PQ', 'GARRAFA PEQUENA DE ÁGUA', 5, 0, NULL),
+(131, 'REFRI 600ML', 'GUARANÁ ANTARTICA', 7, 0, NULL),
+(132, 'REFRI 600ML', 'GUARANÁ ANTARTICA ZERO', 7, 0, NULL),
+(133, 'REFRI 2L', 'COCA-COLA ZERO', 11.5, 0, NULL),
+(134, 'REFRI 2L', 'GUARANÁ ANTARTICA', 11.5, 0, NULL),
+(135, 'REFRI 2L', 'GUARANÁ ANTARTICA ZERO', 11.5, 0, NULL),
+(136, 'REFRI 1,5L', 'GUARANÁ ANTARTICA', 9.5, 0, NULL),
+(137, 'REFRI 1,5L', ' PEPSI', 9.5, 0, NULL),
+(138, 'CERVEJA ', 'LATA', 5, 0, NULL),
+(139, 'CERVEJA', 'GARRAFA', 11.5, 0, NULL),
+(140, 'VINHO TINTO', 'CHILENO', 45, 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PRODUTO_TIPO`
+--
+
+CREATE TABLE `PRODUTO_TIPO` (
+  `PRODUTO` int(10) NOT NULL,
+  `TIPO` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `PRODUTO_TIPO`
+--
+
+INSERT INTO `PRODUTO_TIPO` (`PRODUTO`, `TIPO`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(3, 1),
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(4, 1),
+(4, 2),
+(4, 3),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 2),
+(5, 3),
+(5, 4),
+(5, 5),
+(6, 1),
+(6, 2),
+(6, 3),
+(6, 4),
+(6, 5),
+(7, 1),
+(7, 2),
+(7, 3),
+(7, 4),
+(7, 5),
+(8, 1),
+(8, 2),
+(8, 3),
+(8, 4),
+(8, 5),
+(9, 1),
+(9, 2),
+(9, 3),
+(9, 4),
+(9, 5),
+(10, 1),
+(10, 2),
+(10, 3),
+(10, 4),
+(10, 5),
+(11, 1),
+(11, 2),
+(11, 3),
+(11, 4),
+(11, 5),
+(12, 1),
+(12, 2),
+(12, 3),
+(12, 4),
+(12, 5),
+(13, 1),
+(13, 2),
+(13, 3),
+(13, 4),
+(13, 5),
+(14, 1),
+(14, 2),
+(14, 3),
+(14, 4),
+(14, 5),
+(15, 1),
+(15, 2),
+(15, 3),
+(15, 4),
+(15, 5),
+(16, 1),
+(16, 2),
+(16, 3),
+(16, 4),
+(16, 5),
+(17, 1),
+(17, 2),
+(17, 3),
+(17, 4),
+(17, 5),
+(18, 1),
+(18, 2),
+(18, 3),
+(18, 4),
+(18, 5),
+(19, 1),
+(19, 2),
+(19, 3),
+(19, 4),
+(19, 5),
+(20, 1),
+(20, 2),
+(20, 3),
+(20, 4),
+(20, 5),
+(21, 1),
+(21, 2),
+(21, 3),
+(21, 4),
+(21, 5),
+(22, 1),
+(22, 2),
+(22, 3),
+(22, 4),
+(22, 5),
+(23, 1),
+(23, 2),
+(23, 3),
+(23, 4),
+(23, 5),
+(24, 1),
+(24, 2),
+(24, 3),
+(24, 4),
+(24, 5),
+(25, 1),
+(25, 2),
+(25, 3),
+(25, 4),
+(25, 5),
+(26, 1),
+(26, 2),
+(26, 3),
+(26, 4),
+(26, 5),
+(27, 1),
+(27, 2),
+(27, 3),
+(27, 4),
+(27, 5),
+(28, 1),
+(28, 2),
+(28, 3),
+(28, 4),
+(28, 5),
+(29, 1),
+(29, 2),
+(29, 3),
+(29, 4),
+(29, 5),
+(30, 1),
+(30, 2),
+(30, 3),
+(30, 4),
+(30, 5),
+(31, 1),
+(31, 2),
+(31, 3),
+(31, 4),
+(31, 5),
+(32, 1),
+(32, 2),
+(32, 3),
+(32, 4),
+(32, 5),
+(33, 1),
+(33, 2),
+(33, 3),
+(33, 4),
+(33, 5),
+(34, 1),
+(34, 2),
+(34, 3),
+(34, 4),
+(34, 5),
+(35, 1),
+(35, 2),
+(35, 3),
+(35, 4),
+(35, 5),
+(36, 1),
+(36, 2),
+(36, 3),
+(36, 4),
+(36, 5),
+(37, 1),
+(37, 2),
+(37, 3),
+(37, 4),
+(37, 5),
+(38, 1),
+(38, 2),
+(38, 3),
+(38, 4),
+(38, 5),
+(39, 1),
+(39, 2),
+(39, 3),
+(39, 4),
+(39, 5),
+(40, 1),
+(40, 2),
+(40, 3),
+(40, 4),
+(40, 5),
+(41, 1),
+(41, 2),
+(41, 3),
+(41, 4),
+(41, 5),
+(42, 1),
+(42, 2),
+(42, 3),
+(42, 4),
+(42, 5),
+(43, 1),
+(43, 2),
+(43, 3),
+(43, 4),
+(43, 5),
+(44, 1),
+(44, 2),
+(44, 3),
+(44, 4),
+(44, 5),
+(45, 1),
+(45, 2),
+(45, 3),
+(45, 4),
+(45, 5),
+(46, 1),
+(46, 2),
+(46, 3),
+(46, 4),
+(46, 5),
+(47, 1),
+(47, 2),
+(47, 3),
+(47, 4),
+(47, 5),
+(48, 1),
+(48, 2),
+(48, 3),
+(48, 4),
+(48, 5),
+(49, 1),
+(49, 2),
+(49, 3),
+(49, 4),
+(49, 5),
+(50, 1),
+(50, 2),
+(50, 3),
+(50, 4),
+(50, 5),
+(51, 1),
+(51, 2),
+(51, 3),
+(51, 4),
+(51, 5),
+(52, 1),
+(52, 2),
+(52, 3),
+(52, 4),
+(52, 5),
+(53, 1),
+(53, 2),
+(53, 3),
+(53, 4),
+(53, 5),
+(54, 1),
+(54, 2),
+(54, 3),
+(54, 4),
+(54, 5),
+(55, 1),
+(55, 2),
+(55, 3),
+(55, 4),
+(55, 5),
+(56, 1),
+(56, 2),
+(56, 3),
+(56, 4),
+(56, 5),
+(57, 1),
+(57, 2),
+(57, 3),
+(57, 4),
+(57, 5),
+(58, 1),
+(58, 2),
+(58, 3),
+(58, 4),
+(58, 5),
+(59, 1),
+(59, 2),
+(59, 3),
+(59, 4),
+(59, 5),
+(60, 1),
+(60, 2),
+(60, 3),
+(60, 4),
+(60, 5),
+(61, 1),
+(61, 2),
+(61, 3),
+(61, 4),
+(61, 5),
+(62, 1),
+(62, 2),
+(62, 3),
+(62, 4),
+(62, 5),
+(63, 1),
+(63, 2),
+(63, 3),
+(63, 4),
+(63, 5),
+(64, 1),
+(64, 2),
+(64, 3),
+(64, 4),
+(64, 5),
+(65, 1),
+(65, 2),
+(65, 3),
+(65, 4),
+(65, 5),
+(66, 1),
+(66, 2),
+(66, 3),
+(66, 4),
+(66, 5),
+(67, 1),
+(67, 2),
+(67, 3),
+(67, 4),
+(67, 5),
+(68, 1),
+(68, 2),
+(68, 3),
+(68, 4),
+(68, 5),
+(69, 1),
+(69, 2),
+(69, 3),
+(69, 4),
+(69, 5),
+(70, 1),
+(70, 2),
+(70, 3),
+(70, 4),
+(70, 5),
+(71, 1),
+(71, 2),
+(71, 3),
+(71, 4),
+(71, 5),
+(72, 1),
+(72, 2),
+(72, 3),
+(72, 4),
+(72, 5),
+(73, 1),
+(73, 2),
+(73, 3),
+(73, 4),
+(73, 5),
+(74, 1),
+(74, 2),
+(74, 3),
+(74, 4),
+(74, 5),
+(75, 1),
+(75, 2),
+(75, 3),
+(75, 4),
+(75, 5),
+(76, 1),
+(76, 2),
+(76, 3),
+(76, 4),
+(76, 5),
+(77, 1),
+(77, 2),
+(77, 3),
+(77, 4),
+(77, 5),
+(78, 1),
+(78, 2),
+(78, 3),
+(78, 4),
+(78, 5),
+(90, 10),
+(100, 10),
+(110, 10),
+(120, 10),
+(130, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PROMOCAO`
+--
+
+CREATE TABLE `PROMOCAO` (
+  `ID` int(10) NOT NULL,
+  `DESCRICAO` varchar(500) NOT NULL,
+  `DOMINGO` int(1) DEFAULT NULL,
+  `SEGUNDA` int(1) DEFAULT NULL,
+  `TERCA` int(1) DEFAULT NULL,
+  `QUARTA` int(1) DEFAULT NULL,
+  `QUINTA` int(1) DEFAULT NULL,
+  `SEXTA` int(1) DEFAULT NULL,
+  `SABADO` int(1) DEFAULT NULL,
+  `DESCONTO` float NOT NULL,
+  `POSSUIBRINDE` int(1) DEFAULT 0,
+  `BRINDE` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `PROMOCAO`
+--
+
+INSERT INTO `PROMOCAO` (`ID`, `DESCRICAO`, `DOMINGO`, `SEGUNDA`, `TERCA`, `QUARTA`, `QUINTA`, `SEXTA`, `SABADO`, `DESCONTO`, `POSSUIBRINDE`, `BRINDE`) VALUES
+(2, 'REFRI GRÁTIS NA COMPRA DE 2 PIZZAS', 0, 1, 1, 1, 1, 0, 0, 0, 1, 136);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `RESUMO`
+--
+
+CREATE TABLE `RESUMO` (
+  `ID` int(11) NOT NULL,
+  `DATAINICIAL` date NOT NULL,
+  `DATAFINAL` date NOT NULL,
+  `TOTALPIZZA` varchar(20) NOT NULL,
+  `TOTALBEBIDA` varchar(20) NOT NULL,
+  `TOTALGERAL` varchar(20) NOT NULL,
+  `IMPRESSO` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `RESUMO`
+--
+
+INSERT INTO `RESUMO` (`ID`, `DATAINICIAL`, `DATAFINAL`, `TOTALPIZZA`, `TOTALBEBIDA`, `TOTALGERAL`, `IMPRESSO`) VALUES
+(1, '2017-01-01', '2017-01-20', '1', '1', '1', 1),
+(2, '2017-07-01', '2017-09-14', '33', '1', '$1,384.00', 1),
+(3, '2017-07-01', '2017-09-15', '33', '1', 'R$ 1.384,00', 1),
+(4, '2017-07-01', '2017-09-15', '33', '1', 'R$ 1.384,00', 1),
+(5, '2017-07-01', '2017-09-15', '33', '1', 'R$ 1.384,00', 1),
+(6, '2017-07-01', '2017-09-15', '33', '1', 'R$ 1.384,00', 1),
+(7, '2017-09-14', '2017-09-14', '1', '0', 'R$ 32,00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `SUBTIPO`
+--
+
+CREATE TABLE `SUBTIPO` (
+  `ID` int(11) NOT NULL,
+  `TIPO` int(11) NOT NULL,
+  `NOME` varchar(45) NOT NULL,
+  `PORCENTAGEM` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `SUBTIPO`
+--
+
+INSERT INTO `SUBTIPO` (`ID`, `TIPO`, `NOME`, `PORCENTAGEM`) VALUES
+(1, 1, 'INTEIRA', 100),
+(2, 2, 'METADE', 50),
+(3, 2, 'METADE', 50),
+(4, 3, '1 TERÇO', 33),
+(5, 3, '1 TERÇO', 33),
+(6, 3, '1 TERÇO', 33),
+(7, 4, '2 TERÇOS', 75),
+(8, 4, '1 TERÇO', 25),
+(9, 5, 'METADE', 50),
+(10, 5, '1 QUARTO', 25),
+(11, 5, '1 QUARTO', 25),
+(12, 10, ' ', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TIPO`
+--
+
+CREATE TABLE `TIPO` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(40) COLLATE latin1_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `TIPO`
+--
+
+INSERT INTO `TIPO` (`ID`, `NOME`) VALUES
+(1, 'INTEIRA'),
+(2, 'MEIO A MEIO'),
+(3, '3 SABORES'),
+(4, '2 TERÇOS'),
+(5, 'MEIO E DOIS 1 QUARTO'),
+(10, 'BEBIDA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `__migrationhistory`
+--
+
+CREATE TABLE `__migrationhistory` (
+  `MigrationId` varchar(150) NOT NULL,
+  `ContextKey` varchar(300) NOT NULL,
+  `Model` longblob NOT NULL,
+  `ProductVersion` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `__migrationhistory`
+--
+
+INSERT INTO `__migrationhistory` (`MigrationId`, `ContextKey`, `Model`, `ProductVersion`) VALUES
+('201709222117138_MembershipMySQL', 'Pizzaria.Security.Migrations.Configuration', 0x1f8b0800000000000400ed5ddb6ee4b8117d0f907f10f494045eb72f99c1c4e8de85a76def1a19db8369cf226f062db1dbc2e8d22b51b3f606f9b23ce493f20b2175a5781375d7388b79714be429b2585564155535fffdf77f963f3c7baef115869113f82bf3f8f0c834a06f05b6e3ef56668cb6dfbd337ff8fe8f7f585edadeb3f173deee94b4c33dfd68653e21b43f5b2c22eb097a203af41c2b0ca2608b0eadc05b003b589c1c1dfd6d717cbc8018c2c45886b1fc14fbc8f160f203ff5c07be05f72806ee4d604337ca9ee3379b04d5b8051e8cf6c0822bf3a3f3db6f2074c0e1065a71e8a097c30b8080699cbb0ec0a3d940776b1ac0f70304101eebd9e7086e5018f8bbcd1e3f00eefdcb1ee2765be046309bc359d95c773a4727643a8bb2630e65c5110abc8680c7a7197f166cf7565c360bfe610e5e624ea31732eb848b2bf37cbf771d2b41ff0843cf89a2840e4bf96ced86a4978ce387429c03836b7d50880d962ef2efc058c72e8a43b8f2618c42e0e24ef123c6fa3b7cb90fbe407fe5c7ae4b4f024f03bfab3cc08f3e86c11e86e8e513dc6653bbb64d6351edb7603b16dda83ee93caf7d747a621ab798387874612123144f362808e18fd0872140d0fe081082a14f3060c2658e3a438b62593d593554c9f21fc320de938739201677acbda671039e3f407f879e56e69b23acaf57ce33b4f3271991cfbe83951d7742610c3b0c621afad86e60d5765d18f640bb66e9ac541d07265372748dfb28c81db723770bbe3abb5467a5a2691a9fa09bfc153d39fbd4a4d2dafe500e32c2630803ef53e05621e8260ff720dc4184e712a8db6d8238b498212f17a5fdd2b56add6cd9ef164cd3828da4f25289ad4861bf129b4b629dc4e692dd4a62739613126b17385e0bb9e5307e975e152dc2a6929ec8aa9ebc1b649f224b43880ebe7f24947e066e3c0029a92612b60a559013cf87b469a981e2169c024a9a75d23f4aa9d35175d93508428fba67bc0711ccd68f6524335da95dc18e4f5837b19bc28d388ff6b71015840e53d8ab1043fe1a845f0e59d40343bb6fc984135d269c1e3f6e4fdfbd790becd3b77f85a76fda18233252de20099be676a1a9edca498c6d4fc6b163ad76b27ea5eddb90b46edbde78625373623b79f376d8131b5117f1598d5eef87ac99789348df2a3788ac495f9b0341ebb63910846ff96036a284065384112e3de0b83d2886069575e06f9dd083056fdf07586281df3cf402a2089b3cfb27103d0d7eaacc25768380b71f3e06f214f8f036f61e4708eb50b47a5b9afb5f832b60614fe5d227bd3ae37d08ac2f418c2e7d1b1b16f819593920f979ef78fa00bd0ce7dcb260145d616186f63a887dd42d90498ce3d41b53e252d44611c8481ff2a6c22002d5421543a09b897629d5503f043ba73ee09150c89bca879ab6a81d6ad6ace9500998de48b396f281260d6ac799b6ea252843f06a8332edbca72c4ef3ba0fb5c3c772a6f2bd5e412ca795362446a07f6d4860e7af0dc930f1e3af8e4d4e251a3185bc3186d76a2f0e57d4eb1c33b2b1d5a132cdb1898f630364ea721e4581e5245ac07b8d952b87ea24f041ced0bc7f28238095fbad1b2cf10ef98d47852769b2d275e75f40172268a4b796d89480c80236cf4f3c33bbe9e08aeb3ce1e0e84f0aaac3fc0b471d0b3f0c899a03e2174558791d1ff19ae2f896b307ae1ecf98ee9a5b1b614541887d7301f7d027e6488f313a23603e04e00753d064d6ab8e65cb0525956a619504e765e25017a91707abb333549d24d492510b5d1a781c502b5a49aa7a2a2308aa7ac97406200e8c4f20a0595050476ad808a1ec16651423aa884b0a06565ed90c623ae55c1a5918ab9c98bd204a62001a1ba73020203461699479ec8d5d148990c8a5a625efbaa70b3836ee962e6089ce00a4b78d53086816f9d11500360c34370165e24f1201cd1cd45104b4cab10904b4ca926f4e40d3809feefa33d1bfb9896735ec38feb6ae64d704b259e1c7cc4433f5e4c977c3b8070c79f1bc78242fe1331284baf038b3685794050e581121e01b88545fda47a6518613d4fe33e72449e16b406ba10a0f410424f0e76ae058c157a196caa131c6bae1d58264df16a898955a920633ac651c757c6a009b5fdf2861b34d8f81a5845f282ed5ef61a9d6359fceb2faa91fc92a26ca8a2da7f3fa01283166656aac55af32468369b22f18799ee984539a0454a8d9d1daa9e0574de88401ec9b3bf9673b6ace88fc785d4fbe6e02ba8e37852330549d9922bb3156aa99d4af6ce2595213cb16434fbb445ea084496231ec814bb9b5abe792c8b969e2de74e212e38a48b8944fa6772e65325acf24c101bbc111bb138baac7e19e942dbf83294e6ec5bbe522cd11cd1e2c179264d2e50dd8ef1d7f472597664f8c4d9a59bafe6ed33cddd24b31165685dbec39b3a0848210ec20f39624b2d9f0ca0923443e1d7c04e4066a6d7b5c33e1395572a2c8492a8fa2fcaae6678dbc3bf93bbbe96b90062a38f667805778fe1ef11d92ebffba2d9cc731484e30704128f8f4601db8b1e7cb7d1a796fe63e8606aab9aa91630a33346964618336f82ae8a6a8744a258d483f6fc0d72c6bb2c2504be492e8cd344d8a14cf347dc7a32e178ce8715e2627f55c2ca0aa534d35ae6f3deba65d13e8142fa0dccbd9ac1b75d8ee61d578dfb9f9da69600cb382f9a50b8d20bb8891a3501f4c550c4af9b82156f6491407963d9f9524f5adfa229fb2a1080d203d7873b09d24dc9bac8120b78e86b970222b743cc707789443ac570d97af23f2f7ddf64f1a3afbe7f9315bd89bb7b04399d5ee76707e2ce5e4b71a531c55785b1a1bdeb9ea71d58a186dfb959343c8562fbf15a0b92fbb2990a334dbc3265a3c5950accb4e9184b13b1d14c50803d9af80b35f4133c7254be2a221b2470d31a83c200e8c7ad7c07da9a46a559c97ca1b7d44261f8b86645e3518259d75551924fda2159e84a3e216fa14f83c2b1a9d7fab8f2cc8b8a2a105af5b600bc6ccbe6be268734959559f9b7bad8f5d6668b1a67866ae9b2050ddf326d8d58553600c6357fbd944ff6f5d384150bf67894a2f70bb499404436e812a19235503a44c73916356d2402a465e950623c76b26b7834a0777f5c03629a8175710cc55c3320bfbd717b7e4ee01d226a691b37165debc6c7e7153394afe5cbb0e24f63c6f71037c670b2394e63e996f0edf32b531e753a7721145b62bb836a92d56595dbc11d2191dc2e1da84c5a689d4a26a900925eecba36bdf86cf2bf39f49cf33e3fa1f0f95ce07c65d8897fecc3832fed5672549ff2b08ad2710f21987bd148aec0d9eaf03a903ddbcec635fa8eca58502fdb80ebd5585c457a7403d885587c27daf839d795884e5a286354abb56cd109b86d935cfba2fe5e3d3aadb21b72b8f35baa888ad4a8b0511ab589d70904993bf92c707c675f4d9777e89f18b7bcc50464c923a1f0d47c5c4633bcdb9555e7cdb551dbd3c5d23854ebbf6aad0539a97d675bfbe61750d063868552a650951191d6e5f18eb3108dc5eaa62f5b56f088b60f57622e46b5e0d00dd0f9365f5ad5a81498b5bd9f8274a8a5b7d0ca1e5a4ffef44e3c98b4b5fb51aa9b4ee557218eb58f54adf1ce63dfbd9503b14467a1d87de79ed91afefd02b894fbecaaa3bbdeddd82a23abd614f29f0a354d2994fd91c3a976ffa6a3923a7822a3f067f751571e65467244b35ec5691a7738191490adcccbf9648cba2367391af325b77daf235634a97e2ebb79909974e42a13c736b06a5150419d3d397a3195bd6f42dd9ac6a7a342b3a333361cbf2e8a72f2d33b6b0c9be3f99b9b0352a203333599b6aff9c58d2b4b7d0c9cbc1f0d9b8ecb2661f0b293f52d12ef3927ee3b332edc7008b45ea3ca7559055b52c1483a82b062327a8aacd212d564279151c5d411b3975799d0b25edda9a306a8afac44afd94122c9bc889caf3df156b9ada2ad5baa62dd4649bcdb56e51a9366ab20d1795da7295b4b3366ada925a0c9396c891d5aed1adb3c05b19450a7df72a142315c111168b105575aa8b7c4860c425986657f5a61b1b581b254ec2eace0489ab3940951b99888bea74d53993129ef4251912976880a236bd30a56263255f95f7cf94a16ad8f4c2923e55a741cd1afe03717ca88d7d72ff9dfeba8091b32b2148c6aa0fadca71b66873ed6f83fc54cd8c286fc2dc09dd40046c7cd63d0f91b30516c2afc95d77f2bf296419b197de23b4affdbb18ed6384a70cbd47b772c5464ee72afa49619eea989777fbe4a4d9c714f0301df2c9c09dff3e765cbb18f795e0164a02418efdd9cd32594b446e98772f05d26de06b0265ec2bbc957be8ed5d0c16ddf91bf015b6191b16bf0f7007ac97f2ce510652bf1055b62f2f1cb00b81176518657ffc13cbb0ed3d7fff3f7fc785dc2a840000, '6.1.0-30225');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `AspNetPermissions`
+--
+ALTER TABLE `AspNetPermissions`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Indexes for table `CLIENTE`
+--
+ALTER TABLE `CLIENTE`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `ENDERECO`
+--
+ALTER TABLE `ENDERECO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `FUNCIONARIO`
+--
+ALTER TABLE `FUNCIONARIO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `INGREDIENTE`
+--
+ALTER TABLE `INGREDIENTE`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `ITEM_ADICIONAL`
+--
+ALTER TABLE `ITEM_ADICIONAL`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PEDIDO`
+--
+ALTER TABLE `PEDIDO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PEDIDO_ITEM`
+--
+ALTER TABLE `PEDIDO_ITEM`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PEDIDO_ITEM_ADICIONAL`
+--
+ALTER TABLE `PEDIDO_ITEM_ADICIONAL`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PEDIDO_ITEM_DETALHE`
+--
+ALTER TABLE `PEDIDO_ITEM_DETALHE`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PRODUTO`
+--
+ALTER TABLE `PRODUTO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `PROMOCAO`
+--
+ALTER TABLE `PROMOCAO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `RESUMO`
+--
+ALTER TABLE `RESUMO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `SUBTIPO`
+--
+ALTER TABLE `SUBTIPO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `TIPO`
+--
+ALTER TABLE `TIPO`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `CLIENTE`
+--
+ALTER TABLE `CLIENTE`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+
+--
+-- AUTO_INCREMENT for table `ENDERECO`
+--
+ALTER TABLE `ENDERECO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `FUNCIONARIO`
+--
+ALTER TABLE `FUNCIONARIO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `INGREDIENTE`
+--
+ALTER TABLE `INGREDIENTE`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `ITEM_ADICIONAL`
+--
+ALTER TABLE `ITEM_ADICIONAL`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `PEDIDO`
+--
+ALTER TABLE `PEDIDO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `PEDIDO_ITEM`
+--
+ALTER TABLE `PEDIDO_ITEM`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `PEDIDO_ITEM_ADICIONAL`
+--
+ALTER TABLE `PEDIDO_ITEM_ADICIONAL`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `PEDIDO_ITEM_DETALHE`
+--
+ALTER TABLE `PEDIDO_ITEM_DETALHE`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `PRODUTO`
+--
+ALTER TABLE `PRODUTO`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+
+--
+-- AUTO_INCREMENT for table `PROMOCAO`
+--
+ALTER TABLE `PROMOCAO`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `RESUMO`
+--
+ALTER TABLE `RESUMO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `SUBTIPO`
+--
+ALTER TABLE `SUBTIPO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `TIPO`
+--
+ALTER TABLE `TIPO`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+COMMIT;
+

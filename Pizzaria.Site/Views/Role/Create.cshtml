@@ -1,0 +1,36 @@
+﻿@model Pizzaria.Core.Model.RoleViewModels.CreateViewModel
+@{
+    ViewData["Title"] = "Novo Perfil de Acesso";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @Html.Partial("_StatusMessage", Model.StatusMessage)
+        <br /><br />
+        <h2>@ViewData["Title"]</h2>
+    </div>
+@using (Html.BeginForm())
+{
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.RoleName)
+                    @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        &nbsp;
+        @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
+    </div>
+}
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

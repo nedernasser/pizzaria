@@ -1,0 +1,1160 @@
+﻿@model  Pizzaria.Core.Model.HomeModel
+@{
+    ViewBag.Title = "Pedido Online";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <br /><br />
+        <div id="tituloPesquisa">
+            <h2>Insira o telefone do cliente:</h2>
+        </div>
+        <div id="tituloCadastro" class="hidden">
+            <h1>Complete o cadastro do cliente:</h1>
+        </div>
+        <div id="tituloPedido" class="hidden">
+            <h1>Realize o pedido do cliente:</h1>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row" id="pesquisaForm">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.TelefonePesquisa, new { @class = "form-control pesquisa textPesquisa", @placeholder = Html.Raw(Html.DisplayNameFor(m => m.TelefonePesquisa)) })
+                        <div class="alert-danger" style="display:none;" id="msgTelefonePesquisa">Campo Obrigatório!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <button type="button" onclick="return Pesquisar();" class="btn btn-success btn-block textPesquisa">Pesquisar</button>
+            </div>
+        </div>
+@Html.Partial("Signup", Model)
+@Html.Partial("Order", Model)
+    </div>
+    <div class="panel-footer">
+        <input type="hidden" value="" id="resumoConfirmacao" />
+    </div>
+</div>
+
+<div id="PopupEndereco" class="hidden">
+@using (Html.BeginForm("Index", "Home", null, FormMethod.Post, new { id = "formEndereco", @class = "form-horizontal" }))
+{
+     <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoCEP, new { @class = "form-control cep", @placeholder = Html.DisplayNameFor(m => m.NovoCEP) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoCEP)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoLogradouro, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.NovoLogradouro) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoLogradouro)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoNumero, new { @class = "form-control", @placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Numero).ToHtmlString()) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoNumero)
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoComplemento, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.NovoComplemento) })
+                    <label>&nbsp;</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoCidade, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.NovoCidade) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoCidade)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoEstado, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.NovoEstado) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoEstado)
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="editor">
+                    @Html.TextBoxFor(m => m.NovoBairro, new { @class = "form-control", @readonly = "readonly", @placeholder = Html.DisplayNameFor(m => m.NovoBairro) })
+                    <label>
+                        @Html.ValidationMessageFor(m => m.NovoBairro)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <div class="editor">
+                    <button type="button" onclick="return CadastrarEndereco();" class="btn btn-success btn-block">Cadastrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+<div id="PopupFormaPagamento" class="hidden">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="radio" class="" id="rbDinheiro" name="opcaoFormaPagamento" /> Dinheiro
+        </div>
+        <div class="col-md-6">
+            <input type="radio" class="" id="rbCartao" name="opcaoFormaPagamento" /> Cartão
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="text" id="Troco" class="form-control hidden money" placeholder="Troco para ..." />
+                <select id="TipoCartao" class="form-control hidden">
+                    <option value="">Selecione</option>
+                    <option value="DÉBITO">DÉBITO</option>
+                    <option value="CRÉDITO">CRÉDITO</option>
+                    <option value="VALE REFEIÇÃO">VALE REFEIÇÃO</option>
+                </select></div>
+            <div class="form-group">
+                <button type="button" onclick="return VerificarBrinde();" class="btn btn-success btn-block">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="PopupBrinde" class="hidden">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <h4 class="modal-title" id="titleBrinde">&nbsp;</h4>
+                <select class="form-control" id="brindeSelecionado">
+                    <option value="">Selecione</option>
+                    <option value="GUARANÁ">GUARANÁ</option>
+                    <option value="PEPSI">PEPSI</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" onclick="return ConfirmarPedido();" class="btn btn-success btn-block">Confirmar Pedido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var cliente;
+    var endereco;
+    var taxaEntrega;
+    var totalCarrinho;
+    var descricaoCarrinho;
+    var novoPedido = true;
+    var possuiBrinde = false;
+    var brinde = "";
+    var removerTaxa = false;
+    var produtosCondicionais = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ProdutosCondicionais)));
+
+    const bairros = ["ACLIMAÇÃO","BELA VISTA","CENTRO","IPIRANGA","LIBERDADE","VILA MARIANA","VILA MONUMENTO"];
+
+    function Cadastrar() {
+
+        if (!$("#formSignup").valid()) {
+            return;
+        }
+
+        var parametros = $('#formSignup').serializeObject();
+        var url = "@Url.Action("GravarCliente", "Home")";
+        $.ajax({
+            type: "POST",
+            url: url,
+            cache: false,
+            data: { model: parametros },
+            success: function (retorno) {
+                if (retorno.ok) {
+                    cliente = retorno.cliente;
+                    endereco = retorno.cliente.EnderecoPadrao;
+                    AbrirNovoPedido(cliente, cliente.UltimoPedido != null);
+                } else {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function CadastrarEndereco() {
+
+        if (!$("#formEndereco").valid()) {
+            return;
+        }
+
+        var parametros = $('#formEndereco').serializeObject();
+        var url = "@Url.Action("GravarEndereco", "Home")";
+        $.ajax({
+            type: "POST",
+            url: url,
+            cache: false,
+            data: { model: parametros },
+            success: function (retorno) {
+                if (retorno.ok) {
+                    cliente = retorno.cliente;
+                    $("#PopupEndereco").addClass('hidden');
+                    endereco = retorno.cliente.EnderecoPadrao;
+                    $("#TotalCarrinho").html(retorno.totalCarrinho);
+                    descricaoCarrinho = retorno.descricaoCarrinho;
+                    totalCarrinho = retorno.totalCarrinho;
+                    taxaEntrega = retorno.taxaEntrega;
+                    enderecoDialog.dialog('close');
+                    ConfirmarPedido();
+                } else {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function AbrirNovoPedido(cliente, possuiPedido) {
+        $("#pesquisaForm").addClass("hidden");
+        $("#tituloPesquisa").addClass("hidden");
+        $("#cadastroForm").addClass("hidden");
+        $("#tituloCadastro").addClass("hidden");
+        $("#orderForm").removeClass("hidden");
+        $("#tituloPedido").removeClass("hidden");
+
+        $("#idCliente").val(cliente.Id);
+        $("#NomeCliente").html(cliente.Nome);
+        $("#CelularCliente").html(cliente.Celular);
+        $("#TelefoneCliente").html(cliente.Telefone);
+        $("#DataNascimentoCliente").html(cliente.DataNascimentoFormatada);
+
+        if (possuiPedido) {
+            taxaEntrega = cliente.UltimoPedido.TaxaEntrega;
+            $("#ultimoPedido").removeClass("hidden");
+
+            var detalhes = "";
+            var itensAdicionais;
+            for (var i = 0; i < cliente.UltimoPedido.Itens.length; i++) {
+                var item = cliente.UltimoPedido.Itens[i];
+                detalhes += item.Detalhes;
+                if (item.ItensAdicionais != "")
+                    detalhes += " (" + item.ItensAdicionais + ")";
+                var total = "R$" + parseFloat((item.Valor * item.Quantidade)).toFixed(2);
+                total = total.replace(".", ",");
+                detalhes += " => " + total;
+                detalhes += "<br />";
+            }
+            $("#DetalhesUltimoPedido").html(detalhes);
+        } else {
+            $("#ultimoPedido").addClass("hidden");
+        }
+    }
+
+    function Pesquisar() {
+        $("#msgTelefonePesquisa").hide();
+        var telefone = $("#TelefonePesquisa").val();
+        if (telefone == "") {
+            telefone = getParameterByName("telefone");
+            if (telefone == "") {
+                $("#msgTelefonePesquisa").show();
+                return;
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PesquisarCliente", "Home")",
+            cache: false,
+            data: { telefone: telefone },
+            dataType: "json",
+            success: function (retorno) {
+                HideAguarde();
+                if (retorno.ok) {
+                    cliente = retorno.cliente;
+                    endereco = retorno.cliente.EnderecoPadrao;
+                    AbrirNovoPedido(cliente, cliente.UltimoPedido != null);
+                }
+                else
+                {
+                    LimparCadastro();
+                    GerarAlerta("warning", "Não foi encontrado esse número, insira o cliente!");
+                    $("#pesquisaForm").addClass("hidden");
+                    $("#tituloPesquisa").addClass("hidden");
+                    $("#orderForm").addClass("hidden");
+                    $("#tituloPedido").addClass("hidden");
+                    $("#cadastroForm").removeClass("hidden");
+                    $("#tituloCadastro").removeClass("hidden");
+                    if (retorno.numero.length == 11) {
+                        $("#Celular").val(retorno.numero);
+                    } else {
+                        $("#Telefone").val(retorno.numero);
+                    }
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function LimparCadastro() {
+        $("#Nome").val('');
+        $("#Celular").val('');
+        $("#Telefone").val('');
+        $("#DataNascimento").val('');
+        $("#Logradouro").val('');
+        $("#Numero").val('');
+        $("#Complemento").val('');
+        $("#Bairro").val('');
+        $("#Cidade").val('');
+        $("#Estado").val('');
+        $("#CEP").val('');
+    }
+
+    function LimparCarrinho() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LimparCarrinho", "Home")",
+            cache: false,
+            dataType: "json",
+            success: function (retorno) {
+                $("#divCart").addClass("hidden");
+                possuiBrinde = false;
+                LimparNovoItem();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function AbrirDetalhePedido() {
+        bootbox.alert(descricaoCarrinho + '<a href="#" onclick="LimparCarrinho();"><span class="glyphicon glyphicon-remove"></span> Zerar Pedido</a>');
+    }
+
+    function ObterFormaPagamento(completa) {
+        var retorno = "";
+        if ($("#rbDinheiro").prop("checked") || $("#rbCartao").prop("checked")) {
+
+            if (completa) {
+                retorno = "Pagamento com: ";
+            }
+
+            if ($("#rbDinheiro").prop("checked")) {
+                retorno += "DINHEIRO";
+
+                if (completa) {
+                    if ($("#Troco").val() == "") {
+                        retorno += " (não necessita de troco)";
+                    } else {
+                        retorno += " (Troco para " + $("#Troco").val() + ")";
+                    }
+                }
+
+            } else {
+                retorno += "CARTÃO";
+                retorno += " - " + $("#TipoCartao").val();
+            }
+        }
+        return retorno;
+    }
+
+    function ValidarFormaPagamento() {
+        if (!$("#rbDinheiro").prop("checked") && !$("#rbCartao").prop("checked")) {
+            GerarAlerta('error', 'Selecione a Forma de Pagamento');
+            return false;
+        }
+        if ($("#rbCartao").prop("checked") && $("#TipoCartao").val() == "") {
+            GerarAlerta('error', 'Selecione o Tipo do Cartão');
+            return false;
+        }
+        return true;
+    }
+
+    function ConfirmarPedido() {
+
+        if (!ValidarFormaPagamento()) {
+            return;
+        }
+
+        if (possuiBrinde && $("#brindeSelecionado").val() == "") {
+            GerarAlerta('error', 'Selecione o brinde do Cliente');
+            return;
+        }
+
+        VerificarPopups();
+
+        var resumo = novoPedido ? descricaoCarrinho : $("#DetalhesUltimoPedido").html();
+        var resumoCompleto = "CONFIRA O PEDIDO E O ENDEREÇO DE ENTREGA  <br /><br />";
+        resumoCompleto += "<b>" + resumo + "</b><br />";
+        
+        if (possuiBrinde) {
+            resumoCompleto += "<b class='ui-state-error-text'>Brinde: " + $("#brindeSelecionado").val() + "</b><br />";
+        }
+
+        resumoCompleto += "<b>" + ObterFormaPagamento(true) + "</b><br /><br />";
+        resumoCompleto += "<b>" + endereco.EnderecoCompleto + "</b><br />";
+        resumoCompleto += "<b>Taxa de Entrega: " + taxaEntrega + "</b> &nbsp;&nbsp;&nbsp;<input type='checkbox' id='taxaRemover' value='1' onclick='RemoverTaxa();'> Remover a Taxa de Entrega<br /><br />";
+        resumoCompleto += "<b>TOTAL DO PEDIDO: " + totalCarrinho + "</b><br /><br />";
+
+        $("#resumoConfirmacao").val(resumoCompleto);
+
+        bootbox.confirm({
+            closeButton: false,
+            message: resumoCompleto,
+            buttons: {
+                confirm: {
+                    label: 'GRAVAR PEDIDO',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'CADASTRAR NOVO ENDEREÇO',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    if (novoPedido) {
+                        GravarPedido();
+                    } else {
+                        GravarUltimoPedido();
+                    }
+                } else {
+                    AbrirNovoEndereco();
+                }
+            }
+        });
+    }
+
+    function RemoverTaxa() {
+        removerTaxa = $('#taxaRemover').prop('checked');
+    }
+
+    function ConfirmarOpcaoProduto(idProduto) {
+        var item1 = ["MUSSARELA", "CATUPIRY"];
+        var item2 = ["PARMESÃO", "RÚCULA"];
+        var item3 = ["MUSSARELA DE BUFALA", "CREAM CHEESE"];
+
+        var item = item1;
+        if (idProduto == 9 || idProduto == 28) {
+            item = idProduto == 9 ? item3 : item2;
+        }
+
+        bootbox.confirm({
+            closeButton: false,
+            message: item[0] + " OU " + item[1] + " ?",
+            buttons: {
+                confirm: {
+                    label: item[0],
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: item[1],
+                    className: 'btn-warning'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $("#ObsProduto" + idProduto).val(item[0]);
+                } else {
+                    $("#ObsProduto" + idProduto).val(item[1]);
+                }
+            }
+        });
+    }
+
+    function RepetirUltimoPedido() {
+        AbrirFormaPagamento(false);
+    }
+
+    function GravarUltimoPedido() {
+        $.ajax({
+            url: "@Url.Action("RepetirUltimoPedido", "Home")",
+            cache: false,
+            data: {
+                idPedido: cliente.UltimoPedido.Id,
+                idEndereco: endereco.Id,
+                idCliente: cliente.Id,
+                formaPagamento: ObterFormaPagamento(false)
+            },
+            success: function (retorno) {
+                HideAguarde();
+                if (retorno.ok) {
+                    $("#pesquisaForm").removeClass("hidden");
+                    $("#tituloPesquisa").removeClass("hidden");
+                    $("#orderForm").addClass("hidden");
+                    $("#tituloPedido").addClass("hidden");
+                    $("#TelefonePesquisa").val('');
+                    possuiBrinde = false;
+                    GerarAlerta('success', "Pedido realizado com sucesso!");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    var listaProdutos;
+    var gatilho;
+    var createAutoCompleteProdutos = function() {
+        $("#produtos").empty();
+
+        var lastItem = listaProdutos.length - 1;
+        for (var i = 0; i < listaProdutos.length; i++) {
+            var item = listaProdutos[i];
+            var subTipo = item.Nome;
+            var idSubTipo = item.Id;
+
+            var li = $('<li>');
+            var input = $("<input type='text' id='Produto" + idSubTipo + "' class='form-control autoCompleteProduto' />");
+            var hidden = $("<input type='hidden' id='idSubTipo" + idSubTipo + "' />");
+
+            li.append(subTipo + ": ");
+            li.append(input);
+            li.append(hidden);
+
+            input.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "Home/ListarProdutos?filtro=" + request.term + "&subtipo=" + $("#idTipo").val(),
+                        cache: false,
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    if (ui) {
+                        var idInput = $(this).attr('id').replace("Produto", "idSubTipo");
+                        var id = $(this).attr('id').replace("Produto", "");
+                        var idTipo = $("#idTipo").val();
+
+                        $("#" + idInput).val(ui.item.Id);
+                        $(this).val(ui.item.Nome);
+
+                        var obsProduto = "<input type='text' id='ObsProduto" + ui.item.Id + "' class='ObsProduto form-control' placeholder='OBSERVAÇÃO' style='float: right; margin-bottom:10px;' />";
+                        $(this).after(obsProduto);
+
+                        if (produtosCondicionais.includes(ui.item.Id)) {
+                            ConfirmarOpcaoProduto(ui.item.Id);
+                        }
+
+                        var ehBroto = $("#Tamanho").val() == "BROTO";
+                        var valor = ehBroto ? ui.item.Broto : ui.item.Valor;
+                        var valorTotal = ObterValorTotal();
+                        if (valor > valorTotal) {
+                            $("#ValorTotal").val(valor.toFixed(2).toString().replace(".", ","));
+                        }
+
+                        if (ui.item.Id == "53") {
+                            $.ajax({
+                                url: "Home/ListarIngredientes",
+                                cache: false,
+                                success: function (lista) {
+                                    var ingredientes = $('<ul id="Ingredientes">');
+                                    for (var i = 1; i < 6; i++) {
+                                        li = $('<li style="padding:10px;">');
+                                        var select = $("<select id='Ingrediente" + i + "_" + id + "' class='form-control'>");
+                                        select.append("<option value=''>SELECIONE</option>");
+                                        for (var z = 0; z < lista.length; z++) {
+                                            var item = lista[z];
+                                            select.append("<option value=" + item.Principal + ">" + item.Nome + "</option>");
+                                        }
+                                        li.append(select);
+                                        ingredientes.append(li);
+                                    }
+                                    $("#idSubTipo" + idTipo).after(ingredientes);
+                                    $('select').select2({
+                                        minimumResultsForSearch: Infinity
+                                    });
+                                }
+                            });
+                        } else {
+                            $("#Ingredientes").hide();
+                        }
+                        $(this).attr('disabled', 'disabled');
+                        if (id == gatilho) {
+                            $("#ValorTotal").removeClass("hidden");
+                            $("#ItensAdicionais").removeClass("hidden");
+                            $("#btnAdicionarPizza").removeClass("hidden");
+                        }
+                    }
+                    else {
+                        $(this).val('');
+                    }
+                },
+                minLength: 1
+            });
+
+            $("#produtos").append(li);
+
+            if (i == lastItem) {
+                gatilho = idSubTipo;
+            }
+        }
+        $("#produtos").removeClass("hidden");
+    }
+
+    function LimparNovoItem() {
+        $("#Quantidade").val('');
+        $("#idTipo").val('');
+        $("#Tipo").val('');
+        $('#produtos').empty();
+
+        $('#ItensAdicionais').each(function () {
+            $(this).find('input').each(function () {
+                $(this).removeAttr('checked');
+            });
+        });
+
+        $("#ValorTotal").addClass("hidden");
+        $("#ItensAdicionais").addClass("hidden");
+        $("#btnAdicionarPizza").addClass("hidden");
+    }
+
+    function LimparCamposBebida() {
+        $("#QuantidadeBebida").val('');
+        $("#TipoBebida").val('');
+        $("#idTipoBebida").val('');
+    }
+
+    function MostrarCamposBebidas() {
+        LimparCamposBebida();
+        $("#divQtdTipo").addClass("hidden");
+        $("#divProdutos").addClass("hidden");
+        $("#divBebida").removeClass("hidden");
+    }
+
+    function OcultarCamposBebidas() {
+        $("#divQtdTipo").removeClass("hidden");
+        $("#divProdutos").removeClass("hidden");
+        $("#divBebida").addClass("hidden");
+    }
+
+    function GravarPedido() {
+
+        $.ajax({
+            url: "@Url.Action("FecharPedido", "Home")",
+            cache: false,
+            data: {
+                bairro: endereco.Bairro,
+                idEndereco: endereco.Id,
+                idCliente: cliente.Id,
+                formaPagamento: ObterFormaPagamento(false),
+                observacao: $("#brindeSelecionado").val(),
+                removerTaxa: removerTaxa
+            },
+            success: function (retorno) {
+                HideAguarde();
+                if (retorno.ok) {
+                    $("#pesquisaForm").removeClass("hidden");
+                    $("#tituloPesquisa").removeClass("hidden");
+                    $("#orderForm").addClass("hidden");
+                    $("#tituloPedido").addClass("hidden");
+                    $("#TelefonePesquisa").val('');
+                    $("#brindeSelecionado").val('');
+                    $("#divCart").addClass("hidden");
+                    possuiBrinde = false;
+                    brinde = "";
+                    GerarAlerta('success', "Pedido realizado com sucesso!");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function ObterValorTotal() {
+        var valorTotal = $("#ValorTotal").val();
+        if (valorTotal != undefined) {
+            valorTotal = replaceAll(valorTotal, " ", "");
+            valorTotal = replaceAll(valorTotal, "R$", "");
+            valorTotal = replaceAll(valorTotal, ",", ".");
+        }
+        if (valorTotal == "") {
+            valorTotal = "0";
+        }
+        return parseFloat(valorTotal).toFixed(2);
+    }
+
+    function InserirPizzaCarrinho() {
+        var idCliente = $("#idCliente").val();
+        var qtd = $("#Quantidade").val();
+        var tamanho = $("#Tamanho").val();
+        var tipo = $("#idTipo").val();
+        var itens = new Array();
+        var itensAdicionais = new Array();
+        var obs = "";
+        $('#produtos').each(function () {
+            $(this).find('li').each(function(){
+                $(this).find('input').each(function () {
+                    if ($(this).attr('type') == 'hidden') {
+                        itens.push({
+                            IdSubtipo: $(this).attr('id').replace("idSubTipo", ""),
+                            IdProduto: $(this).val(),
+                            Observacao: $("#ObsProduto" + $(this).val()).val()
+                        });
+                        if ($(this).val() == "53") {
+
+                            $('#Ingredientes').each(function () {
+                                $(this).find('select').each(function () {
+                                    var ingrediente = $(this).children("option:selected").text();
+                                    if (ingrediente == "SELECIONE")
+                                        ingrediente = "";
+
+                                    if (ingrediente != "") {
+                                        if (obs == "")
+                                            obs += $(this).children("option:selected").text();
+                                        else
+                                            obs += ", " + $(this).children("option:selected").text();
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+
+        var valorTotal = ObterValorTotal();
+
+        $('#ItensAdicionais').each(function () {
+            $(this).find('input:checked').each(function () {
+                itensAdicionais.push($(this).val());
+            });
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("InserirCarrinho", "Home")",
+            cache: false,
+            data: {
+                Quantidade: qtd.replace(" ", ""),
+                IdTipo: tipo,
+                Tamanho: tamanho,
+                SubTipos: itens,
+                ItensAdicionais: itensAdicionais,
+                Observacao: obs,
+                Valor: valorTotal
+            },
+            dataType: "json",
+            success: function (retorno) {
+                if (retorno.ok) {
+                    $("#divCart").removeClass("hidden");
+                    $("#TotalCarrinho").html(retorno.totalCarrinho);
+                    descricaoCarrinho = retorno.descricaoCarrinho;
+                    totalCarrinho = retorno.totalCarrinho;
+                    taxaEntrega = retorno.taxaEntrega;
+                    possuiBrinde = retorno.possuiBrinde;
+                    brinde = retorno.brinde;
+                    LimparNovoItem();
+
+                    bootbox.confirm({
+                        message: "<b>Deseja bebida?</b>",
+                        buttons: {
+                            confirm: {
+                                label: 'Sim',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'Não',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                MostrarCamposBebidas();
+                            } else {
+                                bootbox.confirm({
+                                    message: "<b>Deseja fechar o pedido?</b>",
+                                    buttons: {
+                                        confirm: {
+                                            label: 'Sim',
+                                            className: 'btn-success'
+                                        },
+                                        cancel: {
+                                            label: 'Não',
+                                            className: 'btn-danger'
+                                        }
+                                    },
+                                    callback: function (result) {
+                                        if (result) {
+                                            AbrirFormaPagamento(true);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    GerarAlerta('error', retorno.mensagem);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function InserirBebidaCarrinho() {
+        var qtd = $("#QuantidadeBebida").val();
+        var tipo = $("#idTipoBebida").val();
+        if (qtd == "" || tipo == "") {
+            GerarAlerta("warning", "Informe a quantidade e qual a bebida para incluir no pedido!");
+            return;
+        }
+
+        var itens = new Array();
+        itens.push({
+            IdSubTipo: 12,
+            IdProduto: tipo
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("InserirCarrinho", "Home")",
+            cache: false,
+            data: {
+                Quantidade: qtd.replace(" ", ""),
+                IdTipo: 10,
+                SubTipos: itens,
+                Observacao: ""
+            },
+            dataType: "json",
+            success: function (retorno) {
+                if (retorno.ok) {
+
+                    if ($("#divCart").hasClass("hidden"))
+                        $("#divCart").removeClass("hidden");
+                    $("#TotalCarrinho").html(retorno.totalCarrinho);
+                    descricaoCarrinho = retorno.descricaoCarrinho;
+                    totalCarrinho = retorno.totalCarrinho;
+                    taxaEntrega = retorno.taxaEntrega;
+                    possuiBrinde = retorno.possuiBrinde;
+                    brinde = retorno.brinde;
+
+                    LimparCamposBebida();
+
+                    bootbox.confirm({
+                        message: "<b>Deseja fechar o pedido?</b>",
+                        buttons: {
+                            confirm: {
+                                label: 'Sim',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'Não',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                AbrirFormaPagamento(true);
+                            } else {
+                                LimparNovoItem();
+                                OcultarCamposBebidas();
+                            }
+                        }
+                    });
+                } else {
+                    GerarAlerta('error', retorno.mensagem);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function LimparNovoEndereco() {
+        $("#NovoLogradouro").val('');
+        $("#NovoNumero").val('');
+        $("#NovoComplemento").val('');
+        $("#NovoBairro").val('');
+        $("#NovoCidade").val('');
+        $("#NovoEstado").val('');
+        $("#NovoCEP").val('');
+    }
+
+    function LimparFormaPagamento() {
+        $("#Troco").val('');
+        $("#TipoCartao").val('');
+        $("#rbDinheiro").prop('checked', false);
+        $("#rbCartao").prop('checked', false);
+    }
+
+    var enderecoDialog;
+    function AbrirNovoEndereco() {
+
+        LimparNovoEndereco();
+
+        enderecoDialog = $("#PopupEndereco").dialog(
+        {
+            position: { my: "center", at: "middle", of: window },
+            title: "Novo Endereço",
+            width: 700,
+            height: 230,
+            modal: true,
+            close: function() {
+                enderecoDialog.dialog('close');
+            }
+        });
+        $("#PopupEndereco").removeClass("hidden");
+    }
+
+    var brindeDialog;
+    function AbrirBrinde() {
+        var titleBrinde = "O cliente ganhou um brinde!<br /><b>" + brinde + "</b><br /><br />Qual o brinde o cliente deseja?";
+        $("#titleBrinde").html(titleBrinde);
+        brindeDialog = $("#PopupBrinde").dialog(
+            {
+                position: { my: "center", at: "middle", of: window },
+                title: "Promoção 2 pizzas com REFRI grátis!",
+                width: 500,
+                height: 260,
+                modal: true,
+                close: function() {
+                    brindeDialog.dialog('close');
+                }
+            });
+        $("#PopupBrinde").removeClass("hidden");
+    }
+
+    function VerificarPopups() {
+        if (formaPgtoDialog != null) {
+            formaPgtoDialog.dialog('close');
+            $("#PopupFormaPagamento").addClass('hidden');
+        }
+
+        if (brindeDialog != null) {
+            brindeDialog.dialog('close');
+            $("#PopupBrinde").addClass('hidden');
+        }
+    }
+
+    function VerificarBrinde() {
+
+        if (!ValidarFormaPagamento()) {
+            return;
+        }
+
+        VerificarPopups();
+
+        if (possuiBrinde) {
+            AbrirBrinde();
+        } else {
+            ConfirmarPedido();
+        }
+    }
+
+    var formaPgtoDialog;
+    function AbrirFormaPagamento(novo) {
+
+        if (!novo) {
+            var total = "R$ " + (cliente.UltimoPedido.ValorTotal);
+            total = total.replace(".", ",");
+            totalCarrinho = total;
+        }
+
+        novoPedido = novo;
+        var formaPagamento = ObterFormaPagamento(true);
+        if (formaPagamento == "") {
+            LimparFormaPagamento();
+            formaPgtoDialog = $("#PopupFormaPagamento").dialog(
+            {
+                position: { my: "center", at: "middle", of: window },
+                title: "Forma de Pagamento",
+                width: 400,
+                height: 160,
+                modal: true,
+                closeOnEscape: false,
+                open: function(event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                }
+            });
+            $("#PopupFormaPagamento").removeClass("hidden");
+        } else {
+            VerificarBrinde();
+        }
+    }
+
+    function ContinuarPedido(idTipo) {
+        $.ajax({
+            url: "@Url.Action("ListarSubTipos", "Home")",
+            cache: false,
+            data: { idTipo: idTipo },
+            success: function (retorno) {
+                HideAguarde();
+                if (retorno.ok) {
+                    listaProdutos = retorno.lista;
+                    createAutoCompleteProdutos();
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+            }
+        });
+    }
+
+    function MostrarCamposFormaPagamento(tipo) {
+        if (tipo == 1) {
+            $("#Troco").removeClass('hidden');
+            $("#TipoCartao").addClass('hidden');
+        } else {
+            $("#Troco").addClass('hidden');
+            $("#TipoCartao").removeClass('hidden');
+        }
+    }
+
+    (function () {
+        var timerToken = setTimeout(function () {
+            if (typeof $ == "undefined") { return; }
+
+            $().ready(function () {
+
+                var telefone = getParameterByName("telefone");
+                if (telefone != "") {
+                    Pesquisar();
+                }
+
+                $("#HomeLink").css("background-color", "#e43b42");
+
+                $("#Tipo").autocomplete({
+                    source: function (request, response) {
+                        var tamanho = $("#Tamanho").val();
+                        $.ajax({
+                            url: "Home/ListarTipos?filtro=" + request.term + "&tamanho=" + tamanho,
+                            cache: false,
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        if (ui) {
+                            $("#idTipo").val(ui.item.Id);
+                            $("#Tipo").val(ui.item.Nome);
+                            ContinuarPedido(ui.item.Id);
+                        }
+                        else {
+                            $("#idTipo").val('');
+                        }
+                    },
+                    minLength: 1
+                });
+
+                $("#Tipo").bind('blur', function () {
+                    if ($("#Tipo").val() == '') {
+                        $("#idTipo").val('');
+                    }
+                });
+
+                $("#TipoBebida").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "Home/ListarBebidas?filtro=" + request.term,
+                            cache: false,
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    },
+                    select: function (event, ui) {
+                        if (ui) {
+                            $("#idTipoBebida").val(ui.item.Id);
+                            $("#TipoBebida").val(ui.item.Nome);
+                        }
+                        else {
+                            $("#idTipoBebida").val('');
+                        }
+                    },
+                    minLength: 1
+                });
+
+                $("#TipoBebida").bind('blur', function () {
+                    if ($("#TipoBebida").val() == '') {
+                        $("#idTipoBebida").val('');
+                    }
+                });
+
+                $("#rbDinheiro").change(function () {
+                    MostrarCamposFormaPagamento(1);
+                });
+                $("#rbCartao").change(function () {
+                    MostrarCamposFormaPagamento(2);
+                });
+
+                $(".cep").blur(function () {
+
+                    var prefix = "";
+                    if (this.id == "NovoCEP") {
+                        prefix = "Novo";
+                    }
+
+                    var cep = this.value.replace("-", "");
+                    $.getJSON("http://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+                        if (!("erro" in dados)) {
+
+                            if (bairros.indexOf(dados.bairro.toUpperCase()) >= 0) {
+                                $("#" + prefix + "Logradouro").val(dados.logradouro);
+                                $("#" + prefix + "Bairro").val(dados.bairro);
+                                $("#" + prefix + "Cidade").val(dados.localidade);
+                                $("#" + prefix + "Estado").val(dados.uf);
+                                $("#" + prefix + "Numero").focus();
+                            } else {
+                                GerarAlerta("error", "Não realizamos entregas nesse BAIRRO.");
+                            }
+                        }
+                        else {
+                            GerarAlerta("error", "CEP não encontrado.");
+                        }
+                    });
+                })
+
+                $(".pesquisa").inputmask('(99) 999999999');
+                $(".telefone").inputmask('(99) 9999-9999');
+                $(".celular").inputmask('(99) 99999-9999');
+                $(".cep").inputmask('99999-999');
+                $("#DataNascimento").inputmask('99/99/9999');
+                $("#Quantidade").inputmask('99');
+                $(".money").inputmask('R$ 999,99', { numericInput: true });
+            });
+            clearTimeout(timerToken);
+        }, 500);
+    })();
+
+</script>

@@ -1,0 +1,146 @@
+﻿@model  Pizzaria.Core.Model.HomeModel
+@using (Html.BeginForm("Index", "Home", null, FormMethod.Post, new { id = "formSignup", @class = "form-horizontal" }))
+{
+    <div class="row hidden" id="cadastroForm">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Nome) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Nome)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.DataNascimento, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.DataNascimento) })
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.CEP, new { @class = "form-control cep", @placeholder = Html.DisplayNameFor(m => m.CEP) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.CEP)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Celular, new { @class = "form-control celular", @placeholder = Html.DisplayNameFor(m => m.Celular) })
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control telefone", @placeholder = Html.DisplayNameFor(m => m.Telefone) })
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Logradouro, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Logradouro) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Logradouro)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", @placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Numero).ToHtmlString()) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Numero)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Complemento) })
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", @readonly = "readonly", @placeholder = Html.DisplayNameFor(m => m.Bairro) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Bairro)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-5">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Cidade) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Cidade)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Estado, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Estado) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Estado)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="editor">
+                        <button type="button" onclick="return Cadastrar();" class="btn btn-success btn-block">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

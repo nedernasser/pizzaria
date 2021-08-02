@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Pizzaria Dom Romeu - @ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link href="/Content/themes/base/all.css" rel="stylesheet" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/Site.css" rel="stylesheet" />
+    <link href="/Content/css/select2.min.css" rel="stylesheet" />
+    <link href="/Content/DataTables-1.10.4/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="/Content/DataTables-1.10.4/css/dataTables.bootstrap.css" rel="stylesheet" />
+    <link href="/Content/DataTables-1.10.4/css/dataTables.jqueryui.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+    <script type="text/javascript">
+        var urlBase = "@Url.Content("~/")";
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse set-radius-zero">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-logo">
+                    <a href="@Url.Action("Index", "Home")"><img src="../img/logo.png" /></a>
+                </div>
+                <div class="visible-lg visible-md visible-sm">
+                    <br /><br />
+                    <ul id="menu-top" class="nav navbar-nav nav-inline">
+                        <li><a id="HomeLink" href="@Url.Action("Index", "Home")" class="menu-top-active">CRIAR PEDIDO</a></li>
+                        <li><a id="ClienteLink" href="@Url.Action("Index", "Cliente")">Clientes</a></li>
+                        <li><a id="CardapioLink" href="@Url.Action("Index", "Cardapio")">Cardápio</a></li>
+                        <li><a id="PromocaoLink" href="@Url.Action("Index", "Promocao")">Promoções</a></li>
+                        <li><a id="PedidoLink" href="@Url.Action("Index", "Pedido")">Pedidos</a></li>
+                        <li>@Html.ActionLink("Sair", "LogOff", "Account", new { returnUrl = "/" }, new { title = "Clique para efetuar Sair" })</li>
+                    </ul>
+                </div>
+                <div id="divCart" class="Cart hidden">
+                    <div class="CartTitle">
+                        Pedido em Andamento
+                    </div>
+                    <div class="CartTotal">
+                        <span class="CartTotalTitle">Total: </span>
+                        <span class="CartTotalValue" id="TotalCarrinho"></span>
+                        <a href="#" onclick="AbrirDetalhePedido();"><span class="glyphicon glyphicon-edit"></span></a>
+                    </div>
+                    <div class="CartBtn">
+                        <a href="#" onclick="AbrirFormaPagamento(true);"><span class="glyphicon glyphicon-shopping-cart"></span> Fechar Pedido</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="bodyContainer">
+        @RenderBody()
+    </div>
+
+    <!-- Modal de Aguarde-->
+    <div class="message-box message-box-success animated fadeIn" id="mb-aguarde">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span> Aguarde</div>
+                <div class="mb-content">
+                    <p>Por favor aguarde, estamos carregando as informações. Assim que o processo for concluído esta tela será fechada automaticamente.</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            Aguarde...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @System.Web.Optimization.Scripts.Render("~/bundles/modernizr")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+    @System.Web.Optimization.Scripts.Render("~/bundles/select2")
+    @System.Web.Optimization.Scripts.Render("~/bundles/bootstrap")
+    @System.Web.Optimization.Scripts.Render("~/bundles/common")
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+    @System.Web.Optimization.Scripts.Render("~/bundles/inputmask")
+    @System.Web.Optimization.Scripts.Render("~/bundles/layout")
+    @System.Web.Optimization.Scripts.Render("~/bundles/datatables")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

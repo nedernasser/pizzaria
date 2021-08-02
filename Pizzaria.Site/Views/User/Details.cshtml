@@ -1,0 +1,49 @@
+﻿@using Pizzaria.Security.Helpers
+@model Pizzaria.Core.Model.UserViewModels.DetailsViewModel
+@{
+    ViewData["Title"] = "Detalhes do Usuário";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @Html.Partial("_StatusMessage", Model.StatusMessage)
+        <br /><br />
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                @using (Html.BeginForm())
+                {
+                    @Html.ValidationSummary()
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username)
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", disabled = "disabled" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Nome)
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Perfil)
+                        @Html.DropDownListFor(m => m.Perfil, Model.Roles, "Selecione", new { @class = "form-control" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        @Html.SecurityButtonHelper("btnSubmit", "Salvar", "submit", "btn btn-primary", "", "", "", "User_Edit")
+        &nbsp;
+        @Html.ActionLink("Voltar", "Index", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

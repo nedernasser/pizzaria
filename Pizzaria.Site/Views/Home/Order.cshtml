@@ -1,0 +1,150 @@
+﻿@model  Pizzaria.Core.Model.HomeModel
+@using (Html.BeginForm("SendOrder", "Home", null, FormMethod.Post, new { id = "formOrder", @class = "form-horizontal" }))
+{
+    <div class="row hidden" id="orderForm">
+        
+        <div class="col-md-5">
+            <fieldset>
+                <legend>DADOS CLIENTE</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="editor">
+                                <input type="hidden" id="idCliente" value="0" />
+                                Nome: <b><span id="NomeCliente"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="editor">
+                                Celular: <b><span id="CelularCliente"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="editor">
+                                Telefone: <b><span id="TelefoneCliente"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="editor">
+                                Data Nascimento: <b><span id="DataNascimentoCliente"></span></b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <br /><br />
+            <fieldset id="ultimoPedido">
+                <legend>ÚLTIMO PEDIDO</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="editor">
+                                <b><span id="DetalhesUltimoPedido"></span></b><br />
+                                <button type="button" onclick="return RepetirUltimoPedido();" class="btn btn-success btn-block">Repetir Pedido</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-7">
+            <fieldset id="novoPedido">
+                <legend>NOVO PEDIDO</legend>
+                <div class="row" id="divQtdTipo">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="editor" style="padding-right:10px;">
+                                QUANTIDADE: <input type="text" id="Quantidade" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="editor" style="padding-right:10px;">
+                                TAMANHO: 
+                                <select id="Tamanho" class="form-control">
+                                    <option value="NORMAL">NORMAL</option>
+                                    <option value="BROTO">BROTO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="editor">
+                                TIPO: <input type="text" id="Tipo" class="form-control" />
+                                <input type="hidden" id="idTipo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row" id="divProdutos">
+                    <div class="col-md-12">
+                        <ul id="produtos" class="hidden">
+
+                        </ul>
+                        <br />
+                        <input type='text' id='ValorTotal' class='money form-control hidden' placeholder='VALOR PIZZA' style='float: right; margin-bottom:10px; width:120px;' />
+                        <br />
+                        <div id="ItensAdicionais" class="hidden" style="padding-bottom:10px;">
+                            @foreach (Pizzaria.Core.VO.ItemAdicionalVO item in ViewBag.ItensAdicionais)
+                            {
+                                <div style="display:block" title="@if(item.Valor > 0) { item.Valor.ToString("C"); }">
+                                    @Html.Raw("<input type='checkbox' id='itemAdicional" + item.Id.ToString() + "' value='" + item.Id.ToString() + "'>") @(item.Nome) @if(item.Valor > 0) { @("( " + item.Valor.ToString("C") + " )"); } @Html.Raw("<br />")
+                                </div>
+                            }
+                        </div>
+                        <button type="button" onclick="return InserirPizzaCarrinho();" id="btnAdicionarPizza" class="btn btn-success btn-block hidden">Adicionar Pizza</button>
+                        <div style="float:right; width: 200px; margin-top:60px;">
+                            <button type="button" onclick="return MostrarCamposBebidas();" id="btnMostrarBebida" class="btn btn-warning btn-block">Adicionar Bebida</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row hidden" id="divBebida">
+                    <div class="col-md-12">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="editor" style="padding-right:10px;">
+                                    QUANTIDADE: <input type="text" id="QuantidadeBebida" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="editor" style="padding-right:10px;">
+                                    BEBIDA: <input type="text" id="TipoBebida" class="form-control" />
+                                    <input type="hidden" id="idTipoBebida" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="editor" style="padding-top:19px;">
+                                    <button type="button" onclick="return InserirBebidaCarrinho();" id="btnAdicionarBebida" class="btn btn-success btn-block">Adicionar Bebida</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="float:right; width: 200px; margin-top:60px;">
+                            <button type="button" onclick="return OcultarCamposBebidas();" id="btnMostrarPizza" class="btn btn-warning btn-block">Adicionar Pizza</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+}

@@ -1,0 +1,301 @@
+﻿@model  Pizzaria.Core.Model.PedidoPesquisaModel
+@{
+    ViewBag.Title = "Pedido";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <br /><br />
+        <h2>Pedidos</h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default" id="panelResultado">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="fa fa-search"></span> Lista de Pedidos</h3>
+                    </div>
+                    <div class="panel-body">
+                    @using (Html.BeginForm("CarregarDataTable", "Pedido", FormMethod.Post, new { id = "form", @class = "form-horizontal" }))
+                    {
+                        <div class="row">
+                            <div class="col-xs-3">
+                                @Html.TextBoxFor(m => m.Filtro, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Filtro) })
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.TextBoxFor(m => m.DataInicial, new { @class = "form-control datepicker", @placeholder = Html.DisplayNameFor(m => m.DataInicial) })
+                            </div>
+                            <div class="col-xs-3">
+                                @Html.TextBoxFor(m => m.DataFinal, new { @class = "form-control datepicker", @placeholder = Html.DisplayNameFor(m => m.DataFinal) })
+                            </div>
+                            <div class="col-xs-3">
+                                <button type="button" onclick="return Pesquisar();" class="btn btn-success btn-block">Pesquisar</button>
+                            </div>
+                        </div>
+                    }
+                        <table id="tablePedidos" class="table table-striped table-responsive datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th style="text-align:center;">Bairro</th>
+                                    <th style="text-align:center; width:100px;">Valor</th>
+                                    <th style="text-align:center;">Data</th>
+                                    <th style="text-align:center;">Pedido Repetido</th>
+                                    <th style="text-align:center;"></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div id="divTotais" class="alert alert-success alert-dismissable" style="display: none;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Dinheiro: </b><span id="spanTotalDinheiro"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Crédito: </b><span id="spanTotalCredito"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Pizzas: </b><span id="spanTotalPizza"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Geral: </b><span id="spanTotalGeral"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Débito: </b><span id="spanTotalDebito"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Vale-Refeição: </b><span id="spanTotalValeRefeicao"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <i class="fa fa-calculator"></i> <b>Total Bebidas: </b><span id="spanTotalBebida"></span>
+                                </div>
+                                <div class="col-xs-3">
+                                    <button type="button" onclick="return Imprimir();" class="btn btn-success btn-block">Imprimir Resumo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+
+    </div>
+</div>
+
+@section styles {
+    @Styles.Render("~/Content/datepicker")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/datepicker")
+
+    <script type="text/javascript">
+
+        function Imprimir()
+        {
+            var totalDinheiro       = $("#spanTotalDinheiro").text();
+            var totalDebito         = $("#spanTotalDebito").text();
+            var totalCredito        = $("#spanTotalCredito").text();
+            var totalValeRefeicao   = $("#spanTotalValeRefeicao").text();
+            var totalPizza          = $("#spanTotalPizza").text();
+            var totalBebida         = $("#spanTotalBebida").text();
+            var totalGeral          = $("#spanTotalGeral").text();
+            var dataInicial         = $("#DataInicial").val();
+            var dataFinal           = $("#DataFinal").val();
+
+            var url = '@Url.Action("GravarResumo", "Pedido")';
+            $.ajax({
+                url: url,
+                data:
+                {
+                    totalDinheiro: totalDinheiro,
+                    totalDebito: totalDebito,
+                    totalCredito: totalCredito,
+                    totalValeRefeicao: totalValeRefeicao,
+                    totalPizza: totalPizza,
+                    totalBebida: totalBebida,
+                    totalGeral: totalGeral,
+                    dataInicial: dataInicial,
+                    dataFinal: dataFinal
+                },
+                cache: false,
+                success: function (retorno) {
+                    if (retorno.ok) {
+                        bootbox.alert("Resumo gerado com sucesso, aguarde a impressão...");
+                    } else {
+                        DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            });
+        }
+
+        function Pesquisar() {
+            var filtro = $("#Filtro").val();
+            var dataInicial = $("#DataInicial").val();
+            var dataFinal = $("#DataFinal").val();
+
+            if (filtro == "" && dataInicial == "" && dataFinal == "") {
+                GerarAlerta("warning", "Informe um filtro ou um período para realizar a pesquisa!");
+                return;
+            }
+            if ((dataInicial != "" && dataFinal == "") || (dataInicial == "" && dataFinal != "")) {
+                GerarAlerta("warning", "Preencha corretamente os dois campos para filtrar por período!");
+                return;
+            }
+            if (dataInicial != "") {
+                var dtInicial = $.datepicker.parseDate('dd/mm/yy', dataInicial);
+                var dtFinal = new Date();
+                if (dataFinal != "")
+                    dtFinal = $.datepicker.parseDate('dd/mm/yy', dataFinal);
+                var oneDay = 1000 * 60 * 60 * 24;
+                var diff = Math.ceil((dtFinal.getTime() - dtInicial.getTime()) / (oneDay))
+                if (diff < 0) {
+                    GerarAlerta("warning", "Data Inicial não pode ser menor que Data Final!");
+                    return;
+                }
+            }
+
+            AtualizarPedido();
+        }
+
+        var tabelaPedidos = null;
+        function FiltrarPedido() {
+            if (tabelaPedidos != null)
+                tabelaPedidos.draw();
+        }
+
+        function AtualizarPedido() {
+            if (tabelaPedidos == null) {
+                CarregarPedido();
+            }
+            else
+                FiltrarPedido();
+        }
+
+        function CarregarPedido() {
+
+            var url = "@Url.Action("CarregarDataTable", "Pedido")";
+
+            tabelaPedidos = $('#tablePedidos').DataTable({
+                "ajax": {
+                    "url": url,
+                    "type": "POST",
+                    "data": function (d) {
+                        return $.extend({}, d, $('form').serializeObject());
+                    },
+                    "error": function (xhr, error, thrown) {
+                        GerarAlerta("error", "ERRO");
+                    },
+                    "dataSrc": function (json) {
+                        var arrayTotais = json.extraData.toString().split("|");
+                        $("#spanTotalPizza").html(arrayTotais[0]);
+                        $("#spanTotalBebida").html(arrayTotais[1]);
+                        $("#spanTotalDinheiro").html(arrayTotais[2]);
+                        $("#spanTotalDebito").html(arrayTotais[3]);
+                        $("#spanTotalCredito").html(arrayTotais[4]);
+                        $("#spanTotalValeRefeicao").html(arrayTotais[5]);
+                        $("#spanTotalGeral").html(arrayTotais[6]);
+                        $("#divTotais").show();
+                        return json.data;
+                    }
+                },
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "searching": false,
+                "order": [0, 'asc'],
+                "columnDefs": [
+                    { "className": "center-force", "targets": "_all" },
+                    { "targets": 0, "data": "Cliente" },
+                    { "targets": 1, "data": "Endereco.Bairro" },
+                    { "targets": 2, "data": "ValorTotalFormatado" },
+                    {
+                        "targets": 3,
+                        "sortable": true,
+                        "data": "DataPedido",
+                        "type": "date-euro",
+                        "render": function (data, type, full, meta) {
+                            return FormatarDataJson(data, true);
+                        }
+                    },
+                    {
+                        "targets": 4,
+                        "render": function (row, type, full, meta) {
+                            return full.Observacao == "PEDIDO DUPLICADO" ? "<span class='glyphicon glyphicon-ok'></span>" : "<span class='glyphicon glyphicon-remove'></span>";
+                        }
+                    },
+                    {
+                        "targets": 5,
+                        "render": function (row, type, full, meta) {
+                            return "<a href='#' onclick='return AbrirPedido(\"" + full.Id + "\")' >Detalhes</a>";
+                        }
+                    }
+                ],
+                "language": {
+                    "url": "@Url.Content("~/Scripts/DataTables-1.10.4/dataTables.pt-BR.txt")"
+                }
+            });
+        }
+
+        var PedidoDialog;
+        function AbrirPedido(id) {
+
+            var url = "@Url.Action("ObterPedido", "Pedido")";
+            url += "?id=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                cache: false,
+                success: function (retorno) {
+                    if (retorno.ok) {
+
+                        var pedido = retorno.pedido;
+                        
+                        var detalhes = "";
+                        var itensAdicionais;
+                        for (var i = 0; i < pedido.Itens.length; i++) {
+                            var item = pedido.Itens[i];
+                            detalhes += item.Detalhes;
+                            if (item.ItensAdicionais != "")
+                                detalhes += " (" + item.ItensAdicionais + ")";
+                            var total = "R$" + item.Valor;
+                            total = total.replace(".", ",");
+                            detalhes += " => " + total;
+                            detalhes += "<br />";
+                        }
+
+                        bootbox.alert(detalhes);
+
+                    } else {
+                        DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            });
+        }
+
+        (function () {
+            var timerToken = setTimeout(function () {
+                if (typeof $ == "undefined") { return; }
+
+                $().ready(function () {
+
+                    $("#PedidoLink").css("background-color", "#e43b42");
+
+                    AtualizarPedido();
+                });
+                clearTimeout(timerToken);
+            }, 500);
+        })();
+
+    </script>
+}

@@ -1,0 +1,342 @@
+﻿@model  Pizzaria.Core.Model.ClienteModel
+@{
+    ViewBag.Title = "Edição do Cliente";
+}
+
+<div id="PopupEndereco" class="hidden">
+    @using (Html.BeginForm("GravarEndereco", "Cliente", null, FormMethod.Post, new { id = "formEndereco", @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(model => model.EnderecoId)
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.CEP, new { @class = "" })
+                        @Html.TextBoxFor(m => m.CEP, new { @class = "form-control cep", @placeholder = Html.DisplayNameFor(m => m.CEP) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.CEP)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.CEP, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Logradouro, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Logradouro) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Logradouro)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.Numero, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", @placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Numero).ToHtmlString()) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Numero)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.Complemento, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Complemento) })
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.Cidade, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Cidade) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Cidade)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.Estado, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Estado, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Estado) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Estado)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.LabelFor(m => m.Bairro, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", @readonly = "readonly", @placeholder = Html.DisplayNameFor(m => m.Bairro) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Bairro)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <div class="editor">
+                        <label>&nbsp;</label>
+                        <button type="button" onclick="return GravarEndereco();" class="btn btn-success btn-block">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <br /><br />
+        <h2>Edição do Cliente</h2>
+    </div>
+    <div class="panel-body">
+    @using (Html.BeginForm("Index", "Cliente", null, FormMethod.Post, new { id = "formCliente", @class = "form-horizontal" }))
+    {
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Nome) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Nome)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.DataNascimento, new { @class = "form-control datepicker", @placeholder = Html.DisplayNameFor(m => m.DataNascimento) })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Celular, new { @class = "form-control celular", @placeholder = Html.DisplayNameFor(m => m.Celular) })
+                        <label>
+                            @Html.ValidationMessageFor(m => m.Celular)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="editor">
+                        @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control telefone", @placeholder = Html.DisplayNameFor(m => m.Telefone) })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default" id="panelResultado">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="fa fa-search"></span> Endereços</h3>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("CarregarEnderecos", "Cliente", FormMethod.Post, new { id = "form", @class = "form-horizontal" }))
+                {
+                    @Html.HiddenFor(model => model.Id)
+                }
+                        <table id="tableEnderecos" class="table table-striped table-responsive datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Endereço</th>
+                                    <th style="text-align:center;"></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="editor">
+                        <button type="submit" class="btn btn-success btn-block">Gravar Alterações</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+    <div class="panel-footer">
+
+    </div>
+</div>
+
+@section styles {
+    @Styles.Render("~/Content/datepicker")
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/datepicker")
+
+    <script type="text/javascript">
+
+        var tabelaEnderecos = null;
+        function FiltrarEndereco() {
+            if (tabelaEnderecos != null)
+                tabelaEnderecos.draw();
+        }
+
+        function AtualizarEndereco() {
+            if (tabelaEnderecos == null) {
+                CarregarEndereco();
+            }
+            else
+                FiltrarEndereco();
+        }
+
+        function CarregarEndereco() {
+
+            var url = "@Url.Action("CarregarEnderecos", "Cliente")";
+
+            tabelaEnderecos = $('#tableEnderecos').DataTable({
+                "ajax": {
+                    "url": url,
+                    "type": "POST",
+                    "data": function (d) {
+                        return $.extend({}, d, $('form').serializeObject());
+                    },
+                    "error": function (xhr, error, thrown) {
+                        GerarAlerta("error", "ERRO");
+                    }
+                },
+                "processing": true,
+                "serverSide": true,
+                "paging": true,
+                "searching": false,
+                "order": [0, 'asc'],
+                "columnDefs": [
+                    { "targets": "_all" },
+                    { "targets": 0, "data": "EnderecoDataTable" },
+                    {
+                        "targets": 1,
+                        "sortable": false,
+                        "className": "center-force",
+                        "render": function (row, type, full, meta) {
+                            return "<a href='#' onclick='return AbrirEndereco(\"" + full.Id + "\")' >Editar</a>";
+                        }
+                    }
+                ],
+                "language": {
+                    "url": "@Url.Content("~/Scripts/DataTables-1.10.4/dataTables.pt-BR.txt")"
+                }
+            });
+        }
+
+        function GravarEndereco() {
+            if (!$("#formEndereco").valid()) {
+                return;
+            }
+
+            var parametros = $('#formEndereco').serializeObject();
+            var url = "@Url.Action("GravarEndereco", "Cliente")";
+            $.ajax({
+                type: "POST",
+                url: url,
+                cache: false,
+                data: { model: parametros },
+                success: function (retorno) {
+                    if (retorno.ok) {
+                        AtualizarEndereco();
+                        EnderecoDialog.dialog('close');
+                        GerarAlerta("success", "Endereco alterado com sucesso!");
+                    } else {
+                        DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            });
+        }
+
+        var EnderecoDialog;
+        function AbrirEndereco(id) {
+
+            var url = "@Url.Action("ObterEndereco", "Cliente")";
+            url += "?id=" + id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                cache: false,
+                success: function (retorno) {
+                    if (retorno.ok) {
+
+                        var endereco = retorno.endereco;
+                        $("#EnderecoId").val(endereco.Id);
+                        $("#Logradouro").val(endereco.Logradouro);
+                        $("#Numero").val(endereco.Numero);
+                        $("#Complemento").val(endereco.Complemento);
+                        $("#Bairro").val(endereco.Bairro);
+                        $("#Cidade").val(endereco.Cidade);
+                        $("#Estado").val(endereco.Estado);
+                        $("#CEP").val(endereco.CEP);
+
+                        EnderecoDialog = $("#PopupEndereco").dialog(
+                        {
+                            position: { my: "center", at: "middle", of: window },
+                            title: "Alterar Endereco",
+                            width: 700,
+                            height: 305,
+                            modal: true
+                        });
+
+                        $("#PopupEndereco").removeClass("hidden");
+
+                    } else {
+                        DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    DisplayAlert("bodyContainer", "danger", "warning", true, "Ocorreu um erro não tratado", false);
+                }
+            });
+        }
+
+        (function () {
+            var timerToken = setTimeout(function () {
+                if (typeof $ == "undefined") { return; }
+
+                $().ready(function () {
+
+                    $("#ClienteLink").css("background-color", "#e43b42");
+
+                    AtualizarEndereco();
+                    $(".telefone").inputmask('(99) 9999-9999');
+                    $(".celular").inputmask('(99) 99999-9999');
+                });
+                clearTimeout(timerToken);
+            }, 500);
+        })();
+
+    </script>
+}
